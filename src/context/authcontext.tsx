@@ -137,11 +137,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const deleteUserAccount = async () => {
-    const { error } = await supabase.functions.invoke('delete-user');
-    if (error) {
-      throw new Error(error.message);
+    const { error: functionError } = await supabase.functions.invoke('delete-user');
+    if (functionError) {
+      throw new Error(functionError.message);
     }
+    await supabase.auth.signOut();
   };
+
 
   return (
     <AuthContext.Provider value={{ 

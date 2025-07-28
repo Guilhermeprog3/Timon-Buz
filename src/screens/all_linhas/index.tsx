@@ -16,7 +16,6 @@ const AllLinhasScreen = () => {
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [filteredLinhas, setFilteredLinhas] = useState<Linha[]>([]);
 
-  // CORREÇÃO APLICADA AQUI
   useFocusEffect(
     useCallback(() => {
       const fetchAllData = async () => {
