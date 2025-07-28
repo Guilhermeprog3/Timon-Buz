@@ -204,8 +204,49 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const getHorariosDaViagem = async (viagemId: string) => { /* ...código existente... */ };
-  const upsertHorario = async (horario: Omit<HorarioPonto, 'id' | 'created_at'>): Promise<boolean> => { /* ...código existente... */ };
+  const getHorariosDaViagem = async (viagemId: string) => {
+    setIsLoading(true);
+    try {
+        const { data, error } = await supabase
+            .from('horarios_ponto')
+            .select('*')
+            .eq('viagem_id', viagemId);
+        
+        if (error) throw error;
+        setHorarios(data || []);
+    } catch (error: any) {
+        Alert.alert("Erro", "Não foi possível carregar os horários.");
+    } finally {
+        setIsLoading(false);
+    }
+  };
+
+  const upsertHorario = async (horario: Omit<HorarioPonto, 'id' | 'created_at'>): Promise<boolean> => {
+    try {
+        const { data, error } = await supabase
+            .from('horarios_ponto')
+            .upsert(horario, { onConflict: 'viagem_id, ponto_itinerario_id' })
+            .select()
+            .single();
+        
+        if (error) throw error;
+
+        setHorarios(prev => {
+            const index = prev.findIndex(h => h.ponto_itinerario_id === data.ponto_itinerario_id);
+            if (index > -1) {
+                const newHorarios = [...prev];
+                newHorarios[index] = data;
+                return newHorarios;
+            }
+            return [...prev, data];
+        });
+        return true;
+    } catch (error: any) {
+        Alert.alert("Erro", "Não foi possível salvar o horário.");
+        console.error("Erro ao salvar horário:", error.message);
+        return false;
+    }
+  };
 
   return (
     <LinhaContext.Provider value={{ 
