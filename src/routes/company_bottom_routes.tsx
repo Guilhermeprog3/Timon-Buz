@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import CompanyHomeScreen from '../screens/company_home';
+import CompanyUserScreen from '../screens/company_user';
 
 const CompanyBottomRoutes = () => {
     const theme = { 
@@ -30,6 +31,7 @@ const CompanyBottomRoutes = () => {
             })}
         >
             <Screen name="Painel" component={CompanyHomeScreen} />
+            <Screen name="Perfil" component={CompanyUserScreen} />
         </Navigator>
     );
 };
