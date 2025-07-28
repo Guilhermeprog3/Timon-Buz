@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, Alert, ActivityIndicator, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert, ActivityIndicator, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
@@ -7,30 +7,33 @@ import { Linha } from '../../context/linhacontext';
 import { Viagem, ViagemContext } from '../../context/viagemcontext';
 import { useLinhas } from '../../hooks/linha';
 
-type ManageViagemRouteProp = RouteProp<{ ManageViagem: { linha: Linha, viagem: Viagem } }, 'ManageViagem'>;
+type ManageViagensRouteProp = RouteProp<{ ManageViagens: { linha: Linha, viagem?: Viagem } }, 'ManageViagens'>;
 
-const ManageViagemScreen = () => {
+const ManageViagensScreen = () => {
     const navigation = useNavigation<NavigationProp<any>>();
-    const route = useRoute<ManageViagemRouteProp>();
+    const route = useRoute<ManageViagensRouteProp>();
+    
+    const isEditing = !!route.params.viagem;
     const { linha, viagem } = route.params;
 
-    const { updateViagem } = useContext(ViagemContext);
+    const { updateViagem, addViagemWithHorarios } = useContext(ViagemContext);
     const { 
         pontos, horarios, getPontosDaLinha, getHorariosDaViagem, 
-        upsertHorario, isLoading 
+        upsertAllHorarios, isLoading 
     } = useLinhas();
 
-    const [descricaoViagem, setDescricaoViagem] = useState(viagem.descricao);
+    const [descricaoViagem, setDescricaoViagem] = useState(viagem?.descricao || '');
     const [horariosInput, setHorariosInput] = useState<Record<string, string>>({});
-    const [savingHorario, setSavingHorario] = useState<Record<string, boolean>>({});
-
+    
     useEffect(() => {
         getPontosDaLinha(linha.id);
-        getHorariosDaViagem(viagem.id);
-    }, [linha.id, viagem.id]);
+        if (isEditing && viagem) {
+            getHorariosDaViagem(viagem.id);
+        }
+    }, [linha.id, viagem, isEditing]);
 
     useEffect(() => {
-        if (horarios.length > 0) {
+        if (horarios.length > 0 && isEditing) {
             const initialHorarios: Record<string, string> = {};
             horarios.forEach(h => {
                 if(h.ponto_itinerario_id) {
@@ -39,36 +42,54 @@ const ManageViagemScreen = () => {
             });
             setHorariosInput(initialHorarios);
         }
-    }, [horarios]);
+    }, [horarios, isEditing]);
 
-    const handleSaveHorario = async (pontoId: string) => {
-        const time = horariosInput[pontoId];
-        const timeRegex = /^(?:2[0-3]|[01]?[0-9]):[0-5][0-9]$/;
-        
-        if (!time || !timeRegex.test(time)) {
-            Alert.alert("Erro", "Insira um horário válido no formato HH:mm (ex: 08:30).");
-            return;
-        }
-
-        Keyboard.dismiss();
-        setSavingHorario(prev => ({ ...prev, [pontoId]: true }));
-        
-        await upsertHorario({
-            viagem_id: viagem.id,
-            ponto_itinerario_id: pontoId,
-            horario_previsto: `${time}:00`
-        });
-        
-        setSavingHorario(prev => ({ ...prev, [pontoId]: false }));
-    };
-    
-    const handleUpdateViagemDescricao = () => {
+    const validateInputs = () => {
         if (descricaoViagem.trim().length < 3) {
-            Alert.alert("Erro", "A descrição da viagem deve ter pelo menos 3 caracteres.");
-            return;
+            Alert.alert("Atenção", "A descrição da viagem deve ter pelo menos 3 caracteres.");
+            return false;
         }
-        updateViagem(viagem.id, descricaoViagem.trim());
+
+        if (Object.keys(horariosInput).length < pontos.length) {
+            Alert.alert("Atenção", "Você deve definir o horário para todos os pontos de parada antes de salvar.");
+            return false;
+        }
+
+        for (const ponto of pontos) {
+            const time = horariosInput[ponto.id];
+            const timeRegex = /^(?:2[0-3]|[01]?[0-9]):[0-5][0-9]$/;
+            if (!time || !timeRegex.test(time)) {
+                Alert.alert("Erro de Formato", `Horário inválido para o ponto "${ponto.descricao}". Use o formato HH:mm.`);
+                return false;
+            }
+        }
+        return true;
+    };
+
+    const handleSave = async () => {
         Keyboard.dismiss();
+        if (!validateInputs()) return;
+
+        const horariosParaSalvar = pontos.map(ponto => ({
+            ponto_itinerario_id: ponto.id,
+            horario_previsto: `${horariosInput[ponto.id]}:00`,
+            viagem_id: viagem?.id || ''
+        }));
+
+        let success = false;
+        if (isEditing && viagem) {
+            await updateViagem(viagem.id, descricaoViagem.trim());
+            success = await upsertAllHorarios(horariosParaSalvar);
+            if(success) Alert.alert("Sucesso", "Viagem atualizada com sucesso!");
+
+        } else {
+            success = await addViagemWithHorarios(linha.id, descricaoViagem.trim(), horariosParaSalvar);
+            if(success) Alert.alert("Sucesso", "Viagem criada com sucesso!");
+        }
+
+        if (success) {
+            navigation.goBack();
+        }
     };
 
     const theme = { 
@@ -84,22 +105,26 @@ const ManageViagemScreen = () => {
         title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
         subtitle: { fontSize: 16, color: theme.textSecondary },
         section: { paddingHorizontal: 20, marginBottom: 20, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.1)', paddingBottom: 20 },
-        sectionTitle: { fontSize: 18, fontWeight: 'bold', color: theme.textPrimary, marginBottom: 15 },
+        sectionTitle: { fontSize: 18, fontWeight: 'bold', color: theme.textPrimary, marginBottom: 15, paddingHorizontal: 20 },
         input: {
             backgroundColor: 'rgba(255,255,255,0.08)', height: 50, borderRadius: 8,
             paddingHorizontal: 15, color: theme.textPrimary, fontSize: 16, marginBottom: 10,
         },
         pontoItem: {
             backgroundColor: 'rgba(255,255,255,0.08)', padding: 15, borderRadius: 12,
-            marginBottom: 10,
+            marginBottom: 10, marginHorizontal: 20,
         },
         pontoDescricao: { flex: 1, color: theme.textPrimary, fontSize: 16, marginRight: 10 },
         horarioContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 15 },
         horarioInput: {
             flex: 1, color: theme.textPrimary, backgroundColor: 'rgba(0,0,0,0.2)',
-            height: 44, borderRadius: 8, textAlign: 'center', fontSize: 18, marginRight: 10,
+            height: 44, borderRadius: 8, textAlign: 'center', fontSize: 18,
         },
-        saveButton: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: theme.buttonBackground },
+        fullSaveButton: {
+            height: 50, backgroundColor: theme.buttonBackground, borderRadius: 8,
+            alignItems: 'center', justifyContent: 'center', flexDirection: 'row', margin: 20
+        },
+        buttonText: { color: theme.buttonText, fontSize: 16, fontWeight: 'bold' },
     });
 
     return (
@@ -109,63 +134,58 @@ const ManageViagemScreen = () => {
                     <Ionicons name="arrow-back" size={28} color={theme.textPrimary} />
                 </TouchableOpacity>
                 <View style={styles.headerContent}>
-                    <Text style={styles.title}>Editar Viagem</Text>
+                    <Text style={styles.title}>{isEditing ? 'Editar Viagem' : 'Nova Viagem'}</Text>
                     <Text style={styles.subtitle}>Linha: {linha.nome}</Text>
                 </View>
             </View>
 
-            <FlatList
+            <ScrollView
                 keyboardShouldPersistTaps="handled"
-                ListHeaderComponent={
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Descrição da Viagem</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Ex: Dias Úteis - Manhã"
-                            placeholderTextColor={theme.textSecondary}
-                            value={descricaoViagem}
-                            onChangeText={setDescricaoViagem}
-                            onBlur={handleUpdateViagemDescricao}
-                        />
-                    </View>
-                }
                 contentContainerStyle={{ paddingBottom: 20 }}
-                data={pontos}
-                keyExtractor={(item) => item.id}
-                ListFooterComponent={
-                    <View style={{ paddingHorizontal: 20 }}>
-                        <Text style={styles.sectionTitle}>Definir Horários da Viagem</Text>
-                        {isLoading && <ActivityIndicator color="#FFF" />}
-                    </View>
-                }
-                renderItem={({ item }) => (
-                    <View style={[styles.pontoItem, { marginHorizontal: 20 }]}>
-                        <Text style={styles.pontoDescricao}>{item.ordem}. {item.descricao}</Text>
-                        <View style={styles.horarioContainer}>
-                            <TextInput
-                                style={styles.horarioInput}
-                                placeholder="HH:mm"
-                                placeholderTextColor={theme.textSecondary}
-                                maxLength={5}
-                                keyboardType="numeric"
-                                value={horariosInput[item.id] || ''}
-                                onChangeText={(text) => {
-                                    let newText = text;
-                                    if (text.length === 2 && !horariosInput[item.id]?.includes(':')) {
-                                        newText = text + ':';
-                                    }
-                                    setHorariosInput(prev => ({ ...prev, [item.id]: newText }))
-                                }}
-                            />
-                            <TouchableOpacity style={styles.saveButton} onPress={() => handleSaveHorario(item.id)}>
-                               {savingHorario[item.id] ? <ActivityIndicator size="small" color={theme.buttonText} /> : <Ionicons name="checkmark" size={24} color={theme.buttonText} />}
-                            </TouchableOpacity>
+            >
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>Descrição da Viagem</Text>
+                    <TextInput
+                        style={[styles.input, { marginHorizontal: 20 }]}
+                        placeholder="Ex: Dias Úteis - Manhã"
+                        placeholderTextColor={theme.textSecondary}
+                        value={descricaoViagem}
+                        onChangeText={setDescricaoViagem}
+                    />
+                </View>
+                
+                <Text style={styles.sectionTitle}>Horários por Ponto</Text>
+                {isLoading && pontos.length === 0 ? <ActivityIndicator color="#FFF" /> : (
+                    pontos.map(item => (
+                        <View key={item.id} style={styles.pontoItem}>
+                            <Text style={styles.pontoDescricao}>{item.ordem}. {item.descricao}</Text>
+                            <View style={styles.horarioContainer}>
+                                <TextInput
+                                    style={styles.horarioInput}
+                                    placeholder="HH:mm"
+                                    placeholderTextColor={theme.textSecondary}
+                                    maxLength={5}
+                                    keyboardType="numeric"
+                                    value={horariosInput[item.id] || ''}
+                                    onChangeText={(text) => {
+                                        let newText = text;
+                                        if (text.length === 2 && !horariosInput[item.id]?.includes(':')) {
+                                            newText = text + ':';
+                                        }
+                                        setHorariosInput(prev => ({ ...prev, [item.id]: newText }))
+                                    }}
+                                />
+                            </View>
                         </View>
-                    </View>
+                    ))
                 )}
-            />
+                
+                <TouchableOpacity style={styles.fullSaveButton} onPress={handleSave} disabled={isLoading}>
+                    {isLoading ? <ActivityIndicator color={theme.buttonText} /> : <Text style={styles.buttonText}>{isEditing ? 'Salvar Alterações' : 'Criar Viagem'}</Text>}
+                </TouchableOpacity>
+            </ScrollView>
         </LinearGradient>
     );
 };
 
-export default ManageViagemScreen;
+export default ManageViagensScreen;

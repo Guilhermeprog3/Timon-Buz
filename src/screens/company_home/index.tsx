@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, RefreshControl, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useLinhas } from '../../hooks/linha';
@@ -10,12 +10,26 @@ const CompanyHomeScreen = () => {
   const { linhas, isLoading, getLinhasDaEmpresa } = useLinhas();
   const navigation = useNavigation<NavigationProp<any>>();
 
-  // Usar useFocusEffect para garantir que os dados sejam recarregados sempre que a tela ganhar foco.
+  const [searchQuery, setSearchQuery] = useState('');
+  const [submittedQuery, setSubmittedQuery] = useState('');
+  const [filteredLinhas, setFilteredLinhas] = useState<Linha[]>([]);
+
   useFocusEffect(
     React.useCallback(() => {
       getLinhasDaEmpresa();
     }, [])
   );
+
+  useEffect(() => {
+    if (submittedQuery.trim() === '') {
+      setFilteredLinhas(linhas);
+    } else {
+      const filtered = linhas.filter(linha =>
+        linha.nome.toLowerCase().includes(submittedQuery.toLowerCase())
+      );
+      setFilteredLinhas(filtered);
+    }
+  }, [linhas, submittedQuery]);
 
   const theme = {
     gradientStart: '#041C32',
@@ -26,9 +40,17 @@ const CompanyHomeScreen = () => {
     buttonText: '#041C32'
   };
 
-  // Função para navegar para a tela de detalhes da linha
   const handleNavigateToDetail = (linha: Linha) => {
     navigation.navigate('LinhaDetail', { linha });
+  };
+  
+  const handleSearchSubmit = () => {
+    setSubmittedQuery(searchQuery);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setSubmittedQuery('');
   };
 
   const styles = StyleSheet.create({
@@ -50,10 +72,15 @@ const CompanyHomeScreen = () => {
     linhaNome: { color: theme.textPrimary, fontSize: 18, fontWeight: 'bold' },
     linhaNumero: { color: theme.textSecondary, fontSize: 14 },
     listHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 15,
+    },
+    listTitle: {
       color: theme.textPrimary,
       fontSize: 22,
       fontWeight: '600',
-      marginBottom: 15
     },
     emptyContainer: {
       flex: 1,
@@ -83,13 +110,31 @@ const CompanyHomeScreen = () => {
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.3,
       shadowRadius: 4,
+    },
+    searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      borderRadius: 12,
+      paddingHorizontal: 15,
+      marginBottom: 20,
+    },
+    searchInput: {
+      flex: 1,
+      height: 50,
+      color: theme.textPrimary,
+      fontSize: 16,
+      marginLeft: 10,
+    },
+    clearSearchButton: {
+      padding: 5,
     }
   });
 
   const renderEmptyComponent = () => (
     <View style={styles.emptyContainer}>
       <Ionicons name="bus-outline" size={50} color={theme.textSecondary} />
-      <Text style={styles.emptyText}>Nenhuma linha cadastrada ainda.{"\n"}Clique no '+' para adicionar sua primeira linha.</Text>
+      <Text style={styles.emptyText}>{linhas.length === 0 ? "Nenhuma linha cadastrada ainda.\nClique no '+' para adicionar sua primeira linha." : "Nenhuma linha encontrada para sua busca."}</Text>
     </View>
   );
 
@@ -108,8 +153,26 @@ const CompanyHomeScreen = () => {
         <Text style={styles.subtitle}>Gerencie suas linhas e viagens</Text>
       </View>
       <View style={styles.content}>
+        <View style={styles.searchContainer}>
+          <Ionicons name="search-outline" size={22} color={theme.textSecondary} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Pesquisar linha por nome..."
+            placeholderTextColor={theme.textSecondary}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            onSubmitEditing={handleSearchSubmit}
+            returnKeyType="search"
+          />
+          {searchQuery.length > 0 && (
+            <TouchableOpacity onPress={handleClearSearch} style={styles.clearSearchButton}>
+              <Ionicons name="close-circle" size={22} color={theme.textSecondary} />
+            </TouchableOpacity>
+          )}
+        </View>
+
         <FlatList
-          data={linhas}
+          data={filteredLinhas}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.linhaItem} onPress={() => handleNavigateToDetail(item)}>
@@ -121,16 +184,24 @@ const CompanyHomeScreen = () => {
               <Ionicons name="chevron-forward" size={24} color={theme.textSecondary} />
             </TouchableOpacity>
           )}
-          ListHeaderComponent={<Text style={styles.listHeader}>Minhas Linhas</Text>}
+          ListHeaderComponent={
+            <View style={styles.listHeader}>
+                <Text style={styles.listTitle}>Minhas Linhas</Text>
+            </View>
+          }
           ListEmptyComponent={renderEmptyComponent}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}
-              onRefresh={getLinhasDaEmpresa}
+              onRefresh={() => {
+                handleClearSearch();
+                getLinhasDaEmpresa();
+              }}
               tintColor={theme.textPrimary}
             />
           }
           contentContainerStyle={{ paddingBottom: 160 }}
+          keyboardShouldPersistTaps="handled"
         />
       </View>
       <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('ManageLinha')} activeOpacity={0.8}>

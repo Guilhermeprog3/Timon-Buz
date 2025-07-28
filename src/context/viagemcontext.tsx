@@ -9,11 +9,17 @@ export type Viagem = {
   created_at: string;
 };
 
+type HorarioParaSalvar = {
+    ponto_itinerario_id: string;
+    horario_previsto: string;
+}
+
 type ViagemContextProps = {
   viagens: Viagem[];
   isLoading: boolean;
   getViagensDaLinha: (linhaId: string) => Promise<void>;
   addViagem: (linhaId: string, descricao: string) => Promise<Viagem | null>;
+  addViagemWithHorarios: (linhaId: string, descricao: string, horarios: HorarioParaSalvar[]) => Promise<boolean>;
   updateViagem: (viagemId: string, descricao: string) => Promise<boolean>;
   deleteViagem: (viagemId: string) => Promise<boolean>;
 };
@@ -61,6 +67,40 @@ export const ViagemProvider = ({ children }: PropsWithChildren) => {
         setIsLoading(false);
     }
   };
+  
+  const addViagemWithHorarios = async (linhaId: string, descricao: string, horarios: HorarioParaSalvar[]): Promise<boolean> => {
+      setIsLoading(true);
+      try {
+          const { data: novaViagem, error: viagemError } = await supabase
+              .from('viagens')
+              .insert({ linha_id: linhaId, descricao })
+              .select()
+              .single();
+
+          if (viagemError) throw viagemError;
+          if (!novaViagem) throw new Error("Falha ao criar a viagem.");
+
+          const horariosParaInserir = horarios.map(h => ({
+              ...h,
+              viagem_id: novaViagem.id,
+          }));
+
+          const { error: horariosError } = await supabase.from('horarios_ponto').insert(horariosParaInserir);
+
+          if (horariosError) {
+              await supabase.from('viagens').delete().eq('id', novaViagem.id);
+              throw horariosError;
+          }
+          await getViagensDaLinha(linhaId);
+          return true;
+      } catch (error: any) {
+          Alert.alert("Erro", "Não foi possível salvar a nova viagem e seus horários.");
+          return false;
+      } finally {
+          setIsLoading(false);
+      }
+  };
+
 
   const updateViagem = async (viagemId: string, descricao: string): Promise<boolean> => {
     try {
@@ -96,7 +136,7 @@ export const ViagemProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <ViagemContext.Provider value={{ viagens, isLoading, getViagensDaLinha, addViagem, updateViagem, deleteViagem }}>
+    <ViagemContext.Provider value={{ viagens, isLoading, getViagensDaLinha, addViagem, addViagemWithHorarios, updateViagem, deleteViagem }}>
       {children}
     </ViagemContext.Provider>
   );

@@ -26,7 +26,8 @@ export type HorarioPonto = {
     ponto_itinerario_id: string;
 }
 
-// O tipo para criar uma linha agora inclui os pontos
+type HorarioUpsertData = Omit<HorarioPonto, 'id' | 'created_at'>;
+
 type CreateLinhaData = {
   nome: string;
   numero: string;
@@ -51,7 +52,8 @@ type LinhaContextProps = {
   addPonto: (linhaId: string, descricao: string, ordem: number) => Promise<boolean>;
   deletePonto: (pontoId: string) => Promise<boolean>;
   getHorariosDaViagem: (viagemId: string) => Promise<void>;
-  upsertHorario: (horario: Omit<HorarioPonto, 'id' | 'created_at'>) => Promise<boolean>;
+  upsertHorario: (horario: HorarioUpsertData) => Promise<boolean>;
+  upsertAllHorarios: (horarios: HorarioUpsertData[]) => Promise<boolean>;
 };
 
 export const LinhaContext = createContext<LinhaContextProps>({} as LinhaContextProps);
@@ -88,7 +90,6 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
     if (!profile?.empresa_id) return null;
     setIsLoading(true);
     try {
-        // 1. Cria a linha
         const { data: novaLinha, error: linhaError } = await supabase
             .from('linhas')
             .insert({ nome: data.nome, numero: data.numero, empresa_id: profile.empresa_id })
@@ -97,7 +98,6 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
         if (linhaError) throw linhaError;
         if (!novaLinha) throw new Error("Falha ao criar a linha.");
 
-        // 2. Associa os pontos à linha recém-criada
         const pontosParaInserir = data.pontos.map(ponto => ({
             ...ponto,
             linha_id: novaLinha.id
@@ -134,7 +134,6 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
   const deleteLinha = async (linhaId: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-        // Para manter a integridade, precisamos deletar em ordem: horarios -> viagens -> pontos -> linha
         const { data: viagensParaDeletar, error: viagensError } = await supabase.from('viagens').select('id').eq('linha_id', linhaId);
         if (viagensError) throw viagensError;
 
@@ -221,7 +220,7 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const upsertHorario = async (horario: Omit<HorarioPonto, 'id' | 'created_at'>): Promise<boolean> => {
+  const upsertHorario = async (horario: HorarioUpsertData): Promise<boolean> => {
     try {
         const { data, error } = await supabase
             .from('horarios_ponto')
@@ -248,12 +247,32 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const upsertAllHorarios = async (horarios: HorarioUpsertData[]): Promise<boolean> => {
+    if (horarios.length === 0) return true;
+    setIsLoading(true);
+    try {
+        const { error } = await supabase
+            .from('horarios_ponto')
+            .upsert(horarios, { onConflict: 'viagem_id, ponto_itinerario_id' });
+        
+        if (error) throw error;
+
+        await getHorariosDaViagem(horarios[0].viagem_id);
+        return true;
+    } catch (error: any) {
+        Alert.alert("Erro", "Não foi possível salvar os horários.");
+        return false;
+    } finally {
+        setIsLoading(false);
+    }
+  };
+
   return (
     <LinhaContext.Provider value={{ 
       linhas, pontos, horarios, isLoading, 
       getLinhasDaEmpresa, addLinha, updateLinha, deleteLinha, 
       getPontosDaLinha, addPonto, deletePonto,
-      getHorariosDaViagem, upsertHorario
+      getHorariosDaViagem, upsertHorario, upsertAllHorarios
     }}>
       {children}
     </LinhaContext.Provider>

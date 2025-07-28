@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, View, Text, TextInput, TouchableOpacity,
-  ActivityIndicator, Keyboard, ScrollView, Alert, FlatList
+  ActivityIndicator, Keyboard, ScrollView, Alert
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation, NavigationProp, useRoute, RouteProp } from '@react-navigation/native';
@@ -184,33 +184,33 @@ const ManageLinhaScreen = () => {
           <Text style={styles.title}>{isEditing ? 'Editar Linha' : 'Nova Linha'}</Text>
       </View>
 
-      <FlatList
+      <ScrollView
           keyboardShouldPersistTaps="handled"
-          ListHeaderComponent={renderHeader}
-          data={pontosLocais}
-          keyExtractor={(item, index) => (item as any).id || item.descricao + index}
-          renderItem={({ item }) => (
-              <View style={styles.pontoItem}>
+          contentContainerStyle={{ paddingBottom: 20 }}
+      >
+          {renderHeader()}
+          
+          {pontosLocais.map((item, index) => (
+              <View key={(item as any).id || item.descricao + index} style={styles.pontoItem}>
                   <Text style={styles.pontoText}>{item.ordem}. {item.descricao}</Text>
                   <TouchableOpacity onPress={() => handleDeletePontoLocal(item)}>
                       <Ionicons name="trash-outline" size={22} color={theme.red} />
                   </TouchableOpacity>
               </View>
-          )}
-          ListFooterComponent={
-            !isEditing ? (
-                <View style={{ padding: 20 }}>
-                     <TouchableOpacity 
-                        style={[styles.button, pontosLocais.length < 2 && styles.buttonDisabled]} 
-                        onPress={handleSaveLinha} 
-                        disabled={isLoading || pontosLocais.length < 2}
-                     >
-                        {isLoading ? <ActivityIndicator color={theme.buttonText} /> : <Text style={styles.buttonText}>Salvar Linha Completa</Text>}
-                    </TouchableOpacity>
-                </View>
-            ) : null
-          }
-      />
+          ))}
+          
+          {!isEditing ? (
+              <View style={{ padding: 20 }}>
+                    <TouchableOpacity 
+                      style={[styles.button, pontosLocais.length < 2 && styles.buttonDisabled]} 
+                      onPress={handleSaveLinha} 
+                      disabled={isLoading || pontosLocais.length < 2}
+                    >
+                      {isLoading ? <ActivityIndicator color={theme.buttonText} /> : <Text style={styles.buttonText}>Salvar Linha Completa</Text>}
+                  </TouchableOpacity>
+              </View>
+          ) : null}
+      </ScrollView>
     </LinearGradient>
   );
 };

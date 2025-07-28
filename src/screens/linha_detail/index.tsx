@@ -13,7 +13,7 @@ const LinhaDetailScreen = () => {
     const route = useRoute<LinhaDetailRouteProp>();
     const { linha } = route.params;
 
-    const { viagens, isLoading, getViagensDaLinha, addViagem, deleteViagem } = useContext(ViagemContext);
+    const { viagens, isLoading, getViagensDaLinha, deleteViagem } = useContext(ViagemContext);
 
     useFocusEffect(
       React.useCallback(() => {
@@ -21,11 +21,8 @@ const LinhaDetailScreen = () => {
       }, [linha.id])
     );
 
-    const handleCreateViagem = async () => {
-        const novaViagem = await addViagem(linha.id, "Nova Viagem");
-        if (novaViagem) {
-            navigation.navigate('ManageViagem', { linha, viagem: novaViagem });
-        }
+    const handleCreateViagem = () => {
+        navigation.navigate('ManageViagens', { linha });
     };
 
     const handleDeleteViagem = (viagem: Viagem) => {
@@ -41,7 +38,7 @@ const LinhaDetailScreen = () => {
 
     const theme = { 
         gradientStart: '#041C32', gradientEnd: '#0D3B66', textPrimary: '#FFF', 
-        textSecondary: '#CCC', buttonBackground: '#F9A826', red: '#D32F2F'
+        textSecondary: '#CCC', buttonBackground: '#F9A826', red: '#D32F2F', buttonText: '#041C32'
     };
 
     const styles = StyleSheet.create({
@@ -93,7 +90,7 @@ const LinhaDetailScreen = () => {
             <View style={styles.listHeader}>
                 <Text style={styles.listTitle}>Viagens</Text>
                 <TouchableOpacity onPress={handleCreateViagem} style={styles.addButton}>
-                    <Ionicons name="add" size={24} color={'#041C32'} />
+                    <Ionicons name="add" size={24} color={theme.buttonText} />
                 </TouchableOpacity>
             </View>
 
@@ -102,7 +99,7 @@ const LinhaDetailScreen = () => {
                     data={viagens}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                        <TouchableOpacity style={styles.viagemItem} onPress={() => navigation.navigate('ManageViagem', { linha, viagem: item })}>
+                        <TouchableOpacity style={styles.viagemItem} onPress={() => navigation.navigate('ManageViagens', { linha, viagem: item })}>
                             <Ionicons name="time-outline" size={22} color={theme.textSecondary} />
                             <Text style={styles.viagemText}>{item.descricao}</Text>
                             <TouchableOpacity onPress={(e) => { e.stopPropagation(); handleDeleteViagem(item); }} style={styles.deleteButton}>
