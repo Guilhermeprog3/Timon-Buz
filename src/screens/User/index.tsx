@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import React from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import MenuOptionsUser from '../../components/menuoptionsUser'
-import { AuthContext } from '../../context/authcontext';
+import { useAuth } from '../../hooks/auth';
 
 const UserPage: React.FC = () => {
-  const { logout } = useContext(AuthContext);
+  const { logout, deleteUserAccount, profile, user } = useAuth();
   const theme = { gradientStart: '#0D3B66', gradientEnd: '#041C32' };
 
   const styles = StyleSheet.create({
@@ -14,13 +14,19 @@ const UserPage: React.FC = () => {
     },
     scrollView: {
         paddingTop: 60,
+        paddingBottom: 100,
     }
   });
 
   return (
     <LinearGradient colors={[theme.gradientStart, theme.gradientEnd]} style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <MenuOptionsUser logout={logout} />
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <MenuOptionsUser 
+          profile={profile}
+          user={user} 
+          logout={logout} 
+          deleteUserAccount={deleteUserAccount}
+        />
       </ScrollView>
     </LinearGradient>
   );

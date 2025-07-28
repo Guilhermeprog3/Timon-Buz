@@ -1,15 +1,15 @@
 import React, { createContext, useState, useEffect, PropsWithChildren } from 'react';
 import { supabase } from '../service/supabase';
-import { Session, User, AuthChangeEvent } from '@supabase/supabase-js';
+import { Session, User } from '@supabase/supabase-js';
 
-type UserProfile = {
+export type UserProfile = {
   id: string;
   name: string;
   role: 'passageiro' | 'motorista' | 'admin';
   empresa_id: string | null;
 };
 
-type CompanySignUpData = {
+export type CompanySignUpData = {
   companyName: string;
   cnpj: string;
   adminName: string;
@@ -27,6 +27,7 @@ type AuthContextProps = {
   logout: () => Promise<void>;
   resendConfirmationEmail: (email: string) => Promise<void>;
   signUpAsCompanyAdmin: (companyData: CompanySignUpData) => Promise<void>;
+  deleteUserAccount: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
@@ -129,12 +130,32 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       .eq('id', signUpData.user.id);
     
     if (updateError) {
+      await supabase.auth.admin.deleteUser(signUpData.user.id);
+      await supabase.from('empresas').delete().eq('id', company.id);
       throw new Error("Não foi possível definir o usuário como admin: " + updateError.message);
     }
   };
 
+  const deleteUserAccount = async () => {
+    const { error } = await supabase.functions.invoke('delete-user');
+    if (error) {
+      throw new Error(error.message);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, session, isLoading, login, logout, resendConfirmationEmail, signUpAsPassenger, signUpAsCompanyAdmin }}>
+    <AuthContext.Provider value={{ 
+        user, 
+        profile, 
+        session, 
+        isLoading, 
+        login, 
+        logout, 
+        resendConfirmationEmail, 
+        signUpAsPassenger, 
+        signUpAsCompanyAdmin, 
+        deleteUserAccount 
+    }}>
       {children}
     </AuthContext.Provider>
   );

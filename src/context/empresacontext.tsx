@@ -1,7 +1,7 @@
 import React, { createContext, PropsWithChildren, useState, useCallback } from 'react';
 import { supabase } from '../service/supabase';
 
-type Empresa = {
+export type Empresa = {
   id: string;
   nome: string;
   cnpj: string;
