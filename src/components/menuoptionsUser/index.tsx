@@ -32,10 +32,6 @@ const MenuOptionsUser: React.FC<MenuOptionsProps> = ({ logout, deleteUserAccount
     }
   };
 
-  const showTermsAlert = () => {
-      Alert.alert("Termos de Uso", "Os termos de uso ainda não estão disponíveis.");
-  };
-
   const theme = { 
     gradientEnd: '#041C32', textPrimary: '#FFF', textSecondary: '#CCC',
     buttonBackground: '#F9A826', secondary: '#F9A826', red: '#D32F2F' 
@@ -129,7 +125,6 @@ const MenuOptionsUser: React.FC<MenuOptionsProps> = ({ logout, deleteUserAccount
                 <Ionicons name="person" size={40} color={theme.textPrimary} />
             </View>
             <Text style={styles.profileName}>{profile?.name || 'Usuário'}</Text>
-            {/* CORREÇÃO AQUI */}
             <Text style={styles.profileEmail}>{user?.email || ''}</Text>
         </View>
 
@@ -139,7 +134,7 @@ const MenuOptionsUser: React.FC<MenuOptionsProps> = ({ logout, deleteUserAccount
                 <Text style={styles.menuItemText}>Sobre a Plataforma</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.menuItem} onPress={showTermsAlert} activeOpacity={0.7}>
+            <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
                 <Ionicons name="document-text-outline" size={24} color={theme.textSecondary} />
                 <Text style={styles.menuItemText}>Termos de Uso</Text>
             </TouchableOpacity>

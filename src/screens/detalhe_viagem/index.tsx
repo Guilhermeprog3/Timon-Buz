@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,17 +8,30 @@ import { PontoItinerario } from '../../context/linhacontext';
 
 type RotaCompletaItem = PontoItinerario & { horario_previsto?: string };
 
-type DetalheViagemRouteProp = RouteProp<{ DetalheViagem: { viagemId: string; viagemDescricao: string, linhaId: string } }, 'DetalheViagem'>;
+type DetalheViagemRouteProp = RouteProp<{ DetalheViagem: { viagemId: string; viagemDescricao: string, linhaId: string, diasSemana: string[] | null } }, 'DetalheViagem'>;
+
+const formatarDiasSemana = (dias: string[] | null): string => {
+    if (!dias || dias.length === 0) return 'Dias não informados';
+    const DIAS_MAP: { [key: string]: string } = {
+        seg: 'Segunda', ter: 'Terça', qua: 'Quarta', qui: 'Quinta',
+        sex: 'Sexta', sab: 'Sábado', dom: 'Domingo'
+    };
+    if (dias.length === 7) return 'Todos os dias';
+    if (dias.length === 5 && ['seg', 'ter', 'qua', 'qui', 'sex'].every(d => dias.includes(d))) return 'Segunda a Sexta';
+    if (dias.length === 2 && ['sab', 'dom'].every(d => dias.includes(d))) return 'Fim de Semana';
+    
+    return dias.map(d => DIAS_MAP[d] || d).join(', ');
+};
 
 const DetalheViagemScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const route = useRoute<DetalheViagemRouteProp>();
-  const { viagemId, viagemDescricao, linhaId } = route.params;
+  const { viagemId, viagemDescricao, linhaId, diasSemana } = route.params;
 
   const { pontos, horarios, getPontosDaLinha, getHorariosDaViagem, isLoading } = useLinhas();
-  const [rotaCompleta, setRotaCompleta] = useState<RotaCompletaItem[]>([]);
+  const [rotaCompleta, setRotaCompleta] = React.useState<RotaCompletaItem[]>([]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchData = async () => {
         await Promise.all([
             getPontosDaLinha(linhaId),
@@ -28,7 +41,7 @@ const DetalheViagemScreen = () => {
     fetchData();
   }, [linhaId, viagemId]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (pontos.length > 0 && horarios.length > 0) {
       const horariosMap = new Map(horarios.map(h => [h.ponto_itinerario_id, h.horario_previsto]));
       const rota = pontos.map(ponto => ({
@@ -47,15 +60,43 @@ const DetalheViagemScreen = () => {
     gradientEnd: '#0D3B66',
     textPrimary: '#FFF',
     textSecondary: '#CCC',
+    buttonBackground: '#F9A826',
   };
 
   const styles = StyleSheet.create({
     container: { flex: 1, paddingTop: 60 },
-    header: { paddingHorizontal: 20, marginBottom: 20, flexDirection: 'row', alignItems: 'center' },
+    header: { paddingHorizontal: 20, marginBottom: 10, flexDirection: 'row', alignItems: 'center' },
     backButton: { marginRight: 15, padding: 5 },
     headerContent: { flex: 1 },
     title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
     loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    infoSection: {
+        backgroundColor: 'rgba(255,255,255,0.05)',
+        marginHorizontal: 20,
+        borderRadius: 12,
+        padding: 15,
+        marginBottom: 20,
+    },
+    infoRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    infoIcon: {
+        marginRight: 15,
+    },
+    infoTextContainer: {
+        flex: 1,
+    },
+    infoTitle: {
+        fontSize: 14,
+        color: theme.textSecondary,
+        marginBottom: 4,
+    },
+    infoValue: {
+        fontSize: 16,
+        color: theme.textPrimary,
+        fontWeight: '600',
+    },
     pontoItem: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -116,6 +157,17 @@ const DetalheViagemScreen = () => {
           <Text style={styles.title} numberOfLines={1}>{viagemDescricao}</Text>
         </View>
       </View>
+
+      <View style={styles.infoSection}>
+          <View style={styles.infoRow}>
+              <Ionicons name="calendar-outline" size={24} color={theme.buttonBackground} style={styles.infoIcon} />
+              <View style={styles.infoTextContainer}>
+                  <Text style={styles.infoTitle}>Dias de Funcionamento</Text>
+                  <Text style={styles.infoValue}>{formatarDiasSemana(diasSemana)}</Text>
+              </View>
+          </View>
+      </View>
+
       <FlatList
         data={rotaCompleta}
         keyExtractor={(item) => item.id}
@@ -131,7 +183,7 @@ const DetalheViagemScreen = () => {
             <Text style={styles.horario}>{item.horario_previsto}</Text>
           </View>
         )}
-        contentContainerStyle={{ paddingTop: 20, paddingBottom: 100 }}
+        contentContainerStyle={{ paddingTop: 10, paddingBottom: 100 }}
       />
     </LinearGradient>
   );

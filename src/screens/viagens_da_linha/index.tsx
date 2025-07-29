@@ -7,6 +7,19 @@ import { Viagem, ViagemContext } from '../../context/viagemcontext';
 
 type ViagensDaLinhaRouteProp = RouteProp<{ ViagensDaLinha: { linhaId: string; linhaNome: string } }, 'ViagensDaLinha'>;
 
+const formatarDiasSemana = (dias: string[] | null): string => {
+    if (!dias || dias.length === 0) return 'Dias não informados';
+    const DIAS_MAP: { [key: string]: string } = {
+        seg: 'Seg', ter: 'Ter', qua: 'Qua', qui: 'Qui',
+        sex: 'Sex', sab: 'Sáb', dom: 'Dom'
+    };
+    if (dias.length === 7) return 'Todos os dias';
+    if (dias.length === 5 && ['seg', 'ter', 'qua', 'qui', 'sex'].every(d => dias.includes(d))) return 'Segunda a Sexta';
+    if (dias.length === 2 && ['sab', 'dom'].every(d => dias.includes(d))) return 'Fim de Semana';
+    
+    return dias.map(d => DIAS_MAP[d] || d).join(', ');
+};
+
 const ViagensDaLinhaScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const route = useRoute<ViagensDaLinhaRouteProp>();
@@ -68,6 +81,7 @@ const ViagensDaLinhaScreen = () => {
     },
     itemTextContainer: { flex: 1, marginLeft: 15 },
     itemTitle: { color: theme.textPrimary, fontSize: 18 },
+    itemSubtitle: { color: theme.textSecondary, fontSize: 14, marginTop: 4 },
     emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50 },
     emptyText: { color: theme.textSecondary, fontSize: 16, textAlign: 'center' },
     searchContainer: {
@@ -117,12 +131,14 @@ const ViagensDaLinhaScreen = () => {
             onPress={() => navigation.navigate('DetalheViagem', { 
                 viagemId: item.id, 
                 viagemDescricao: item.descricao,
-                linhaId: linhaId
+                linhaId: linhaId,
+                diasSemana: item.dias_semana
             })}
           >
             <Ionicons name="time-outline" size={28} color={theme.buttonBackground} />
             <View style={styles.itemTextContainer}>
               <Text style={styles.itemTitle}>{item.descricao}</Text>
+              <Text style={styles.itemSubtitle}>{formatarDiasSemana(item.dias_semana)}</Text>
             </View>
             <Ionicons name="chevron-forward" size={24} color={theme.textSecondary} />
           </TouchableOpacity>

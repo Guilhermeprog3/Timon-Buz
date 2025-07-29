@@ -7,6 +7,7 @@ export type Viagem = {
   descricao: string;
   linha_id: string;
   created_at: string;
+  dias_semana: string[] | null;
 };
 
 type HorarioParaSalvar = {
@@ -18,9 +19,8 @@ type ViagemContextProps = {
   viagens: Viagem[];
   isLoading: boolean;
   getViagensDaLinha: (linhaId: string) => Promise<void>;
-  addViagem: (linhaId: string, descricao: string) => Promise<Viagem | null>;
-  addViagemWithHorarios: (linhaId: string, descricao: string, horarios: HorarioParaSalvar[]) => Promise<boolean>;
-  updateViagem: (viagemId: string, descricao: string) => Promise<boolean>;
+  addViagemWithHorarios: (linhaId: string, descricao: string, horarios: HorarioParaSalvar[], diasSemana: string[]) => Promise<boolean>;
+  updateViagem: (viagemId: string, descricao: string, diasSemana: string[]) => Promise<boolean>;
   deleteViagem: (viagemId: string) => Promise<boolean>;
 };
 
@@ -47,33 +47,13 @@ export const ViagemProvider = ({ children }: PropsWithChildren) => {
       setIsLoading(false);
     }
   }, []);
-
-  const addViagem = async (linhaId: string, descricao: string): Promise<Viagem | null> => {
-    setIsLoading(true);
-    try {
-        const { data, error } = await supabase
-            .from('viagens')
-            .insert({ linha_id: linhaId, descricao })
-            .select()
-            .single();
-        
-        if (error) throw error;
-        setViagens(prev => [...prev, data]);
-        return data;
-    } catch (error: any) {
-        Alert.alert("Erro", "Não foi possível adicionar a nova viagem.");
-        return null;
-    } finally {
-        setIsLoading(false);
-    }
-  };
   
-  const addViagemWithHorarios = async (linhaId: string, descricao: string, horarios: HorarioParaSalvar[]): Promise<boolean> => {
+  const addViagemWithHorarios = async (linhaId: string, descricao: string, horarios: HorarioParaSalvar[], diasSemana: string[]): Promise<boolean> => {
       setIsLoading(true);
       try {
           const { data: novaViagem, error: viagemError } = await supabase
               .from('viagens')
-              .insert({ linha_id: linhaId, descricao })
+              .insert({ linha_id: linhaId, descricao, dias_semana: diasSemana })
               .select()
               .single();
 
@@ -101,19 +81,18 @@ export const ViagemProvider = ({ children }: PropsWithChildren) => {
       }
   };
 
-
-  const updateViagem = async (viagemId: string, descricao: string): Promise<boolean> => {
+  const updateViagem = async (viagemId: string, descricao: string, diasSemana: string[]): Promise<boolean> => {
     try {
         const { error } = await supabase
             .from('viagens')
-            .update({ descricao })
+            .update({ descricao, dias_semana: diasSemana })
             .eq('id', viagemId);
         
         if (error) throw error;
-        setViagens(prev => prev.map(v => v.id === viagemId ? { ...v, descricao } : v));
+        setViagens(prev => prev.map(v => v.id === viagemId ? { ...v, descricao, dias_semana: diasSemana } : v));
         return true;
     } catch (error: any) {
-        Alert.alert("Erro", "Não foi possível atualizar a descrição da viagem.");
+        Alert.alert("Erro", "Não foi possível atualizar a viagem.");
         return false;
     }
   };
@@ -136,7 +115,7 @@ export const ViagemProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <ViagemContext.Provider value={{ viagens, isLoading, getViagensDaLinha, addViagem, addViagemWithHorarios, updateViagem, deleteViagem }}>
+    <ViagemContext.Provider value={{ viagens, isLoading, getViagensDaLinha, addViagemWithHorarios, updateViagem, deleteViagem }}>
       {children}
     </ViagemContext.Provider>
   );

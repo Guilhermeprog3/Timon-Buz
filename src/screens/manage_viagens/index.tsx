@@ -9,6 +9,12 @@ import { useLinhas } from '../../hooks/linha';
 
 type ManageViagensRouteProp = RouteProp<{ ManageViagens: { linha: Linha, viagem?: Viagem } }, 'ManageViagens'>;
 
+const DIAS_SEMANA = [
+    { key: 'seg', label: 'S' }, { key: 'ter', label: 'T' }, { key: 'qua', label: 'Q' },
+    { key: 'qui', label: 'Q' }, { key: 'sex', label: 'S' }, { key: 'sab', label: 'S' },
+    { key: 'dom', label: 'D' }
+];
+
 const ManageViagensScreen = () => {
     const navigation = useNavigation<NavigationProp<any>>();
     const route = useRoute<ManageViagensRouteProp>();
@@ -23,6 +29,7 @@ const ManageViagensScreen = () => {
     } = useLinhas();
 
     const [descricaoViagem, setDescricaoViagem] = useState(viagem?.descricao || '');
+    const [diasSelecionados, setDiasSelecionados] = useState<string[]>(viagem?.dias_semana || []);
     const [horariosInput, setHorariosInput] = useState<Record<string, string>>({});
     
     useEffect(() => {
@@ -43,10 +50,21 @@ const ManageViagensScreen = () => {
             setHorariosInput(initialHorarios);
         }
     }, [horarios, isEditing]);
+    
+    const handleToggleDia = (dia: string) => {
+        setDiasSelecionados(prev => 
+            prev.includes(dia) ? prev.filter(d => d !== dia) : [...prev, dia]
+        );
+    };
 
     const validateInputs = () => {
         if (descricaoViagem.trim().length < 3) {
             Alert.alert("Atenção", "A descrição da viagem deve ter pelo menos 3 caracteres.");
+            return false;
+        }
+
+        if (diasSelecionados.length === 0) {
+            Alert.alert("Atenção", "Selecione pelo menos um dia da semana para a viagem.");
             return false;
         }
 
@@ -78,13 +96,16 @@ const ManageViagensScreen = () => {
 
         let success = false;
         if (isEditing && viagem) {
-            await updateViagem(viagem.id, descricaoViagem.trim());
-            success = await upsertAllHorarios(horariosParaSalvar);
-            if(success) Alert.alert("Sucesso", "Viagem atualizada com sucesso!");
-
+            success = await updateViagem(viagem.id, descricaoViagem.trim(), diasSelecionados);
+            if (success) {
+                await upsertAllHorarios(horariosParaSalvar);
+                Alert.alert("Sucesso", "Viagem atualizada com sucesso!");
+            }
         } else {
-            success = await addViagemWithHorarios(linha.id, descricaoViagem.trim(), horariosParaSalvar);
-            if(success) Alert.alert("Sucesso", "Viagem criada com sucesso!");
+            success = await addViagemWithHorarios(linha.id, descricaoViagem.trim(), horariosParaSalvar, diasSelecionados);
+            if (success) {
+                Alert.alert("Sucesso", "Viagem criada com sucesso!");
+            }
         }
 
         if (success) {
@@ -104,11 +125,35 @@ const ManageViagensScreen = () => {
         headerContent: { flex: 1 },
         title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
         subtitle: { fontSize: 16, color: theme.textSecondary },
-        section: { paddingHorizontal: 20, marginBottom: 20, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.1)', paddingBottom: 20 },
+        section: { marginBottom: 20, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.1)', paddingBottom: 20 },
         sectionTitle: { fontSize: 18, fontWeight: 'bold', color: theme.textPrimary, marginBottom: 15, paddingHorizontal: 20 },
         input: {
             backgroundColor: 'rgba(255,255,255,0.08)', height: 50, borderRadius: 8,
             paddingHorizontal: 15, color: theme.textPrimary, fontSize: 16, marginBottom: 10,
+        },
+        diasContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginHorizontal: 20,
+            marginBottom: 10,
+        },
+        diaButton: {
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(255,255,255,0.1)',
+        },
+        diaButtonSelected: {
+            backgroundColor: theme.buttonBackground,
+        },
+        diaText: {
+            color: theme.textPrimary,
+            fontWeight: 'bold',
+        },
+        diaTextSelected: {
+            color: theme.buttonText,
         },
         pontoItem: {
             backgroundColor: 'rgba(255,255,255,0.08)', padding: 15, borderRadius: 12,
@@ -154,6 +199,23 @@ const ManageViagensScreen = () => {
                     />
                 </View>
                 
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>Dias de Operação</Text>
+                    <View style={styles.diasContainer}>
+                        {DIAS_SEMANA.map(dia => (
+                            <TouchableOpacity 
+                                key={dia.key}
+                                style={[styles.diaButton, diasSelecionados.includes(dia.key) && styles.diaButtonSelected]}
+                                onPress={() => handleToggleDia(dia.key)}
+                            >
+                                <Text style={[styles.diaText, diasSelecionados.includes(dia.key) && styles.diaTextSelected]}>
+                                    {dia.label}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                </View>
+
                 <Text style={styles.sectionTitle}>Horários por Ponto</Text>
                 {isLoading && pontos.length === 0 ? <ActivityIndicator color="#FFF" /> : (
                     pontos.map(item => (
