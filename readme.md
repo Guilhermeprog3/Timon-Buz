@@ -1,8 +1,25 @@
-Timon Buz
-Timon Buz é um aplicativo móvel projetado para ser o seu guia de transporte público na cidade de Timon. Ele conecta passageiros e empresas de ônibus, fornecendo informações sobre linhas, horários e paradas, facilitando a locomoção pela cidade.
+<p align="center">
+<img src="assets/icon.png" width="128" alt="Timon Buz logo" />
+</p>
+
+<h1 align="center">Timon Buz</h1>
+
+<p align="center">
+<strong>Seu guia de transporte público na cidade de Timon.</strong>
+</p>
+
+<p align="center">
+<img alt="Versão" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+<img alt="Licença: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+<a href="https://github.com/guilhermeprog3/timon-buz/graphs/contributors" alt="Contribuidores">
+<img src="https://img.shields.io/github/contributors/guilhermeprog3/timon-buz" />
+</a>
+</p>
+
+O Timon Buz é um aplicativo móvel projetado para conectar passageiros e empresas de ônibus, fornecendo informações sobre linhas, horários e paradas, facilitando a locomoção pela cidade.
 
 🚀 Funcionalidades
-O aplicativo possui duas interfaces principais, uma para os passageiros e outra para os administradores das empresas de ônibus.
+O aplicativo possui duas interfaces principais: uma para os passageiros e outra para os administradores das empresas de ônibus.
 
 Para Passageiros
 Consulta de Empresas: Visualize todas as empresas de transporte público que operam na cidade.
@@ -11,20 +28,20 @@ Visualização de Linhas: Acesse uma lista completa de todas as linhas de ônibu
 
 Detalhes da Viagem: Veja os horários e o itinerário completo de cada viagem, com todas as paradas.
 
-Busca Inteligente: Pesquise por empresas, linhas ou número do ônibus para encontrar rapidamente a informação que você precisa.
+Busca Inteligente: Pesquise por empresas, linhas ou número do ônibus.
 
-Favoritos: Salve suas linhas mais utilizadas para acesso rápido e fácil.
+Favoritos: Salve suas linhas mais utilizadas para acesso rápido.
 
-Autenticação: Crie sua conta de passageiro para salvar suas preferências e ter uma experiência personalizada.
+Autenticação: Crie sua conta para salvar suas preferências e ter uma experiência personalizada.
 
 Para Empresas (Administradores)
 Painel de Gerenciamento: Uma área dedicada para administrar as informações da empresa.
 
-Gestão de Linhas: Crie, edite e remova linhas de ônibus, incluindo nome, número e todos os pontos de parada do itinerário.
+Gestão de Linhas: Crie, edite e remova linhas de ônibus, incluindo nome, número e itinerário.
 
-Gestão de Viagens: Adicione e gerencie as viagens de cada linha, definindo descrições (ex: "Dias Úteis - Manhã") e dias da semana de operação.
+Gestão de Viagens: Adicione e gerencie as viagens de cada linha, definindo descrições e dias de operação.
 
-Definição de Horários: Atribua horários de passagem para cada ponto de parada em uma determinada viagem.
+Definição de Horários: Atribua horários para cada ponto de parada em uma determinada viagem.
 
 Autenticação Segura: Crie uma conta para sua empresa e gerencie suas informações com segurança.
 
@@ -39,7 +56,7 @@ Expo
 
 TypeScript
 
-React Navigation para roteamento
+React Navigation
 
 Backend & Banco de Dados:
 
@@ -86,7 +103,7 @@ Cole essas chaves no arquivo src/service/supabase.ts:
 const supabaseUrl = 'SUA_URL_SUPABASE';
 const supabaseAnonKey = 'SUA_CHAVE_ANON_SUPABASE';
 
-Você precisará criar as tabelas no seu banco de dados Supabase (users, empresas, linhas, viagens, pontos_itinerario, horarios_ponto, favoritos) para que o aplicativo funcione corretamente.
+Você precisará criar as tabelas no seu banco de dados Supabase para que o aplicativo funcione corretamente.
 
 Executando o Aplicativo
 Inicie o servidor de desenvolvimento do Expo:
@@ -103,15 +120,14 @@ Android: Use o aplicativo Expo Go para escanear o QR code.
 /
 ├── assets/               # Imagens, ícones e fontes
 ├── src/
-│   ├── components/       # Componentes reutilizáveis (ex: menus)
-│   ├── context/          # Provedores de Contexto do React (auth, empresa, linha, etc.)
-│   ├── hooks/            # Hooks customizados (ex: useAuth)
-│   ├── routes/           # Configuração de navegação e rotas
-│   ├── screens/          # Telas principais do aplicativo
-│   └── service/          # Configuração do cliente Supabase
-├── .gitignore
+│   ├── components/       # Componentes reutilizáveis
+│   ├── context/          # Provedores de Contexto do React
+│   ├── hooks/            # Hooks customizados
+│   ├── routes/           # Configuração de navegação
+│   ├── screens/          # Telas do aplicativo
+│   └── service/          # Configuração do Supabase
 ├── app.json              # Configurações do projeto Expo
-├── package.json          # Dependências e scripts do projeto
+├── package.json          # Dependências e scripts
 └── README.md
 
 🤝 Contribuições
