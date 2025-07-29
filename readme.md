@@ -1,134 +1,123 @@
-<p align="center">
-<img src="assets/icon.png" width="128" alt="Timon Buz logo" />
-</p>
 
-<h1 align="center">Timon Buz</h1>
+---
 
-<p align="center">
-<strong>Seu guia de transporte público na cidade de Timon.</strong>
-</p>
+````markdown
+# 🚌 Timon Buz - Aplicativo Mobile
 
-<p align="center">
-<img alt="Versão" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
-<img alt="Licença: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-<a href="https://github.com/guilhermeprog3/timon-buz/graphs/contributors" alt="Contribuidores">
-<img src="https://img.shields.io/github/contributors/guilhermeprog3/timon-buz" />
-</a>
-</p>
+**Timon Buz** é um aplicativo móvel desenvolvido para auxiliar os cidadãos de **Timon (MA)** no uso do transporte público. A plataforma conecta **passageiros** e **empresas de ônibus**, oferecendo uma experiência prática para consulta de linhas, itinerários, horários e pontos de parada.
 
-O Timon Buz é um aplicativo móvel projetado para conectar passageiros e empresas de ônibus, fornecendo informações sobre linhas, horários e paradas, facilitando a locomoção pela cidade.
+> ⚠️ **Importante:** Este repositório corresponde ao **front-end mobile** da aplicação.
 
-🚀 Funcionalidades
-O aplicativo possui duas interfaces principais: uma para os passageiros e outra para os administradores das empresas de ônibus.
+---
 
-Para Passageiros
-Consulta de Empresas: Visualize todas as empresas de transporte público que operam na cidade.
+## 🚀 Tecnologias Utilizadas
 
-Visualização de Linhas: Acesse uma lista completa de todas as linhas de ônibus disponíveis.
+- **React Native** com **Expo**
+- **TypeScript**
+- **React Navigation** para navegação entre telas
+- **Zod** para validação de formulários
+- **Supabase** como backend e banco de dados
 
-Detalhes da Viagem: Veja os horários e o itinerário completo de cada viagem, com todas as paradas.
+---
 
-Busca Inteligente: Pesquise por empresas, linhas ou número do ônibus.
+## 🎨 Paleta de Cores
 
-Favoritos: Salve suas linhas mais utilizadas para acesso rápido.
+| Cor         | Uso                          |
+|-------------|------------------------------|
+| `#EFAE0C`   | Cor principal (destaques)     |
+| `#291F75`   | Cor secundária (menus e fundo)|
+| `#FFFFFF`   | Fundo de conteúdo             |
 
-Autenticação: Crie sua conta para salvar suas preferências e ter uma experiência personalizada.
+---
 
-Para Empresas (Administradores)
-Painel de Gerenciamento: Uma área dedicada para administrar as informações da empresa.
+## 👥 Funcionalidades
 
-Gestão de Linhas: Crie, edite e remova linhas de ônibus, incluindo nome, número e itinerário.
+### Para Passageiros
 
-Gestão de Viagens: Adicione e gerencie as viagens de cada linha, definindo descrições e dias de operação.
+- 🔍 **Consulta de Empresas:** Veja todas as empresas que operam na cidade.
+- 🗺️ **Visualização de Linhas:** Veja todas as linhas e seus itinerários.
+- 🕒 **Detalhes da Viagem:** Consulte horários e pontos de parada em cada viagem.
+- 💡 **Busca Inteligente:** Pesquise por empresa, linha ou número do ônibus.
+- ⭐ **Favoritos:** Salve suas linhas mais utilizadas.
+- 🔐 **Autenticação:** Crie uma conta para salvar preferências e ter uma experiência personalizada.
 
-Definição de Horários: Atribua horários para cada ponto de parada em uma determinada viagem.
+### Para Empresas (Administradores)
 
-Autenticação Segura: Crie uma conta para sua empresa e gerencie suas informações com segurança.
+- 🧭 **Painel de Gerenciamento:** Área para administrar informações da empresa.
+- 🛣️ **Gestão de Linhas:** Crie, edite e remova linhas, definindo nome e pontos fixos.
+- 🕑 **Gestão de Viagens:** Crie viagens com horários e dias da semana de operação (ex: seg a sex, seg a dom).
+- 📍 **Definição de Horários:** Cadastre o horário de passagem em cada ponto.
+- 🔐 **Autenticação Segura:** Login individual da empresa com acesso protegido.
+---
 
-🛠️ Tecnologias Utilizadas
-Este projeto foi construído utilizando tecnologias modernas para desenvolvimento móvel:
+## 🧪 Como Rodar o Projeto Localmente
 
-Frontend:
 
-React Native
+### 📦 Instalação
 
-Expo
-
-TypeScript
-
-React Navigation
-
-Backend & Banco de Dados:
-
-Supabase
-
-Validação de Dados:
-
-Zod
-
-🏁 Como Começar
-Para executar este projeto localmente, siga os passos abaixo.
-
-Pré-requisitos
-Node.js (versão 18 ou superior)
-
-Yarn ou npm
-
-Expo CLI (npm install -g expo-cli)
-
-Um dispositivo móvel com o app Expo Go ou um emulador (Android Studio / Xcode)
-
-Instalação
-Clone o repositório:
-
-git clone https://your-repository-url/timon-buz.git
+```bash
+# 1. Clone o repositório
+git clone https://github.com/Guilhermeprog3/timon-buz.git
 cd timon-buz
 
-Instale as dependências:
-
-npm install
-# ou
+# 2. Instale as dependências
 yarn install
+# ou
+npm install
+````
 
-Configuração do Supabase:
+### 🔗 Configuração do Supabase
 
-Crie um projeto no Supabase.
+1. Crie um projeto no [Supabase](https://supabase.com/)
+2. No painel do projeto, vá em **Settings > API**
+3. Copie a **Project URL** e **anon public key**
+4. Cole no arquivo `src/service/supabase.ts`:
 
-No painel do seu projeto, vá para Settings > API.
-
-Copie a Project URL e a anon public key.
-
-Cole essas chaves no arquivo src/service/supabase.ts:
-
+```ts
 const supabaseUrl = 'SUA_URL_SUPABASE';
 const supabaseAnonKey = 'SUA_CHAVE_ANON_SUPABASE';
+```
 
-Você precisará criar as tabelas no seu banco de dados Supabase para que o aplicativo funcione corretamente.
+5. Crie no Supabase as seguintes tabelas:
 
-Executando o Aplicativo
-Inicie o servidor de desenvolvimento do Expo:
+   * `users`
+   * `empresas`
+   * `linhas`
+   * `pontos_itinerario`
+   * `viagens`
+   * `horarios_ponto`
+   * `favoritos`
 
+---
+
+## ▶️ Executando o App
+
+```bash
+# Inicie o servidor de desenvolvimento Expo
 npx expo start
+```
 
-Abra no seu dispositivo:
+Abra o QR Code com:
 
-iOS: Abra o aplicativo Câmera e escaneie o QR code que aparece no terminal.
+* **iOS:** Câmera nativa
+* **Android:** App **Expo Go**
 
-Android: Use o aplicativo Expo Go para escanear o QR code.
+---
 
-📂 Estrutura do Projeto
+## 📂 Estrutura do Projeto
+
+```
 /
 ├── assets/               # Imagens, ícones e fontes
 ├── src/
 │   ├── components/       # Componentes reutilizáveis
-│   ├── context/          # Provedores de Contexto do React
+│   ├── context/          # Contextos globais (auth, empresa, etc.)
 │   ├── hooks/            # Hooks customizados
-│   ├── routes/           # Configuração de navegação
-│   ├── screens/          # Telas do aplicativo
-│   └── service/          # Configuração do Supabase
+│   ├── routes/           # Navegação
+│   ├── screens/          # Telas do app
+│   └── service/          # Conexão com Supabase
+├── .gitignore
 ├── app.json              # Configurações do projeto Expo
-├── package.json          # Dependências e scripts
+├── package.json
 └── README.md
-
-🤝 Contribuições
-Contribuições são sempre bem-vindas! Se você tem alguma ideia para melhorar o aplicativo, sinta-se à vontade para criar uma issue ou enviar um pull request.
+```
