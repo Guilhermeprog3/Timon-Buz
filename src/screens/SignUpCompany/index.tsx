@@ -7,7 +7,6 @@ import {
   ActivityIndicator,
   Keyboard,
   ScrollView,
-  ViewStyle,
 } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Ionicons } from '@expo/vector-icons'
@@ -95,37 +94,36 @@ const SignUpCompanyScreen = () => {
       flexGrow: 1,
       justifyContent: 'center',
       paddingHorizontal: 32,
-      paddingTop: 60,
-      paddingBottom: 20,
+      paddingVertical: 40,
     },
     heading: {
-      fontSize: 28,
+      fontSize: 32,
       color: theme.textPrimary,
-      marginBottom: 8,
-      fontWeight: '300',
+      marginBottom: 12,
+      fontWeight: 'bold',
       textAlign: 'center',
     },
     subtitle: {
-      fontSize: 15,
+      fontSize: 16,
       color: theme.textSecondary,
       textAlign: 'center',
-      marginBottom: 32,
+      marginBottom: 40,
     },
-    inputGroup: { marginBottom: 18 },
+    inputGroup: { marginBottom: 20 },
     inputLabel: {
       color: theme.textSecondary,
-      marginBottom: 6,
-      marginLeft: 4,
+      marginBottom: 8,
+      fontSize: 14,
     },
     inputContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      height: 52,
+      height: 56,
       borderWidth: 1,
-      borderRadius: 8,
+      borderRadius: 12,
       paddingHorizontal: 16,
-      backgroundColor: 'rgba(255, 255, 255, 0.05)',
-      borderColor: 'rgba(255, 255, 255, 0.1)',
+      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+      borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     inputContainerError: { borderColor: theme.red },
     inputIcon: { marginRight: 12 },
@@ -134,34 +132,43 @@ const SignUpCompanyScreen = () => {
       color: theme.red,
       fontSize: 13,
       marginLeft: 4,
-      marginTop: 4,
+      marginTop: 6,
     },
     globalErrorText: {
       color: theme.red,
       fontSize: 14,
       textAlign: 'center',
-      marginBottom: 15,
+      marginBottom: 20,
+      fontWeight: 'bold',
     },
     button: {
-      height: 52,
+      height: 56,
       backgroundColor: theme.buttonBackground,
-      borderRadius: 8,
+      borderRadius: 12,
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'row',
-      marginTop: 10,
+      marginTop: 20,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.3,
+      shadowRadius: 4.65,
+      elevation: 8,
     },
     buttonText: {
       color: theme.buttonText,
       fontSize: 16,
       fontWeight: 'bold',
-      marginLeft: isLoading ? 10 : 0,
+      marginLeft: isLoading ? 12 : 0,
     },
-    linkButton: { paddingVertical: 12, marginTop: 16 },
+    linkButton: { paddingVertical: 12, marginTop: 20 },
     link: {
       color: theme.textPrimary,
       fontSize: 14,
-      opacity: 0.8,
+      textDecorationLine: 'underline',
       textAlign: 'center',
     },
   })
@@ -177,7 +184,7 @@ const SignUpCompanyScreen = () => {
       >
         <Text style={styles.heading}>Cadastro da Empresa</Text>
         <Text style={styles.subtitle}>
-          Preencha os dados da sua empresa e do administrador.
+          Preencha os dados para começar a gerenciar sua frota.
         </Text>
 
         {globalError ? (
@@ -192,6 +199,7 @@ const SignUpCompanyScreen = () => {
               fieldErrors.companyName && styles.inputContainerError,
             ]}
           >
+            <Ionicons name="business-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="Ex: Viação Timon City"
@@ -213,6 +221,7 @@ const SignUpCompanyScreen = () => {
               fieldErrors.cnpj && styles.inputContainerError,
             ]}
           >
+            <Ionicons name="document-text-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="00.000.000/0001-00"
@@ -235,6 +244,7 @@ const SignUpCompanyScreen = () => {
               fieldErrors.adminName && styles.inputContainerError,
             ]}
           >
+            <Ionicons name="person-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="Seu nome completo"
@@ -257,6 +267,7 @@ const SignUpCompanyScreen = () => {
               fieldErrors.email && styles.inputContainerError,
             ]}
           >
+            <Ionicons name="mail-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="seu-email@dominio.com"
@@ -280,6 +291,7 @@ const SignUpCompanyScreen = () => {
               fieldErrors.password && styles.inputContainerError,
             ]}
           >
+            <Ionicons name="lock-closed-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="********"
@@ -291,7 +303,7 @@ const SignUpCompanyScreen = () => {
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <Ionicons
                 name={showPassword ? 'eye-outline' : 'eye-off-outline'}
-                size={20}
+                size={22}
                 color={theme.textSecondary}
               />
             </TouchableOpacity>
@@ -305,6 +317,7 @@ const SignUpCompanyScreen = () => {
           style={styles.button}
           onPress={handleSignUp}
           disabled={isLoading}
+          activeOpacity={0.8}
         >
           {isLoading && <ActivityIndicator size="small" color={theme.buttonText} />}
           <Text style={styles.buttonText}>Finalizar Cadastro</Text>
@@ -314,7 +327,7 @@ const SignUpCompanyScreen = () => {
           style={styles.linkButton}
           onPress={() => navigation.goBack()}
         >
-          <Text style={styles.link}>Voltar</Text>
+          <Text style={styles.link}>Já tenho uma conta</Text>
         </TouchableOpacity>
       </ScrollView>
     </LinearGradient>

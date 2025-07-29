@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert, ActivityIndicator } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Modal, Pressable, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp, NavigationProp, useFocusEffect } from '@react-navigation/native';
@@ -14,6 +14,8 @@ const LinhaDetailScreen = () => {
     const { linha } = route.params;
 
     const { viagens, isLoading, getViagensDaLinha, deleteViagem } = useContext(ViagemContext);
+    const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+    const [viagemToDelete, setViagemToDelete] = useState<Viagem | null>(null);
 
     useFocusEffect(
       React.useCallback(() => {
@@ -25,15 +27,17 @@ const LinhaDetailScreen = () => {
         navigation.navigate('ManageViagens', { linha });
     };
 
-    const handleDeleteViagem = (viagem: Viagem) => {
-        Alert.alert(
-            "Confirmar Exclusão",
-            `Tem certeza que deseja excluir a viagem "${viagem.descricao}" e todos os seus horários?`,
-            [
-                { text: "Cancelar", style: "cancel" },
-                { text: "Excluir", style: "destructive", onPress: () => deleteViagem(viagem.id) }
-            ]
-        );
+    const handleDeleteConfirmation = (viagem: Viagem) => {
+        setViagemToDelete(viagem);
+        setDeleteModalVisible(true);
+    };
+
+    const handleDeleteViagem = () => {
+        if (viagemToDelete) {
+            deleteViagem(viagemToDelete.id);
+            setDeleteModalVisible(false);
+            setViagemToDelete(null);
+        }
     };
 
     const theme = { 
@@ -66,6 +70,40 @@ const LinhaDetailScreen = () => {
         emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50 },
         emptyText: { color: theme.textSecondary, fontSize: 16, textAlign: 'center' },
         loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+        modalOverlay: { 
+          flex: 1, justifyContent: 'center', alignItems: 'center', 
+          backgroundColor: 'rgba(0, 0, 0, 0.7)' 
+        },
+        modalContainer: { 
+           width: '85%', backgroundColor: theme.gradientEnd,
+           borderRadius: 20, padding: 24, alignItems: 'center', 
+           shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, 
+           shadowOpacity: 0.3, shadowRadius: 5, elevation: 8 
+        },
+        modalTitle: { 
+          fontSize: 20, fontWeight: 'bold', color: theme.textPrimary, 
+          marginBottom: 8, textAlign: 'center' 
+        },
+        modalMessage: { 
+          fontSize: 16, color: theme.textSecondary, textAlign: 'center', 
+          marginBottom: 24, lineHeight: 22 
+        },
+        modalButtonContainer: { 
+          flexDirection: 'row', width: '100%', justifyContent: 'space-between' 
+        },
+        modalButton: { 
+          flex: 1, paddingVertical: 14, borderRadius: 12, 
+          alignItems: 'center', justifyContent: 'center' 
+        },
+        cancelButton: { 
+          backgroundColor: 'rgba(255,255,255,0.1)', marginRight: 8 
+        },
+        confirmButton: { 
+          backgroundColor: theme.red, marginLeft: 8 
+        },
+        modalButtonText: { 
+          fontSize: 16, fontWeight: 'bold', color: '#FFF' 
+        },
     });
 
     return (
@@ -102,7 +140,7 @@ const LinhaDetailScreen = () => {
                         <TouchableOpacity style={styles.viagemItem} onPress={() => navigation.navigate('ManageViagens', { linha, viagem: item })}>
                             <Ionicons name="time-outline" size={22} color={theme.textSecondary} />
                             <Text style={styles.viagemText}>{item.descricao}</Text>
-                            <TouchableOpacity onPress={(e) => { e.stopPropagation(); handleDeleteViagem(item); }} style={styles.deleteButton}>
+                            <TouchableOpacity onPress={(e) => { e.stopPropagation(); handleDeleteConfirmation(item); }} style={styles.deleteButton}>
                                 <Ionicons name="trash-outline" size={22} color={theme.red} />
                             </TouchableOpacity>
                             <Ionicons name="chevron-forward" size={24} color={theme.textSecondary} />
@@ -115,6 +153,23 @@ const LinhaDetailScreen = () => {
                     }
                 />
             )}
+
+            <Modal animationType="fade" transparent={true} visible={isDeleteModalVisible} onRequestClose={() => setDeleteModalVisible(false)}>
+                <Pressable style={styles.modalOverlay} onPress={() => setDeleteModalVisible(false)}>
+                    <Pressable style={styles.modalContainer} onPress={(e) => e.stopPropagation()}>
+                        <Text style={styles.modalTitle}>Confirmar Exclusão</Text>
+                        <Text style={styles.modalMessage}>Tem certeza que deseja excluir a viagem "{viagemToDelete?.descricao}" e todos os seus horários?</Text>
+                        <View style={styles.modalButtonContainer}>
+                            <TouchableOpacity style={[styles.modalButton, styles.cancelButton]} onPress={() => setDeleteModalVisible(false)} activeOpacity={0.8}>
+                                <Text style={styles.modalButtonText}>Cancelar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.modalButton, styles.confirmButton]} onPress={handleDeleteViagem} activeOpacity={0.8}>
+                                <Text style={styles.modalButtonText}>Excluir</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Pressable>
+                </Pressable>
+            </Modal>
         </LinearGradient>
     );
 };

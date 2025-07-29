@@ -24,7 +24,6 @@ const VerifyEmailScreen = () => {
     setIsLoading(true);
     try {
       await resendConfirmationEmail(email);
-      Alert.alert("Sucesso", "Um novo e-mail de confirmação foi enviado para você.");
     } catch (error: any) {
       Alert.alert("Erro", error.message || "Não foi possível reenviar o e-mail.");
     } finally {

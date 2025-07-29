@@ -3,7 +3,6 @@ import { supabase } from '../service/supabase';
 import { AuthContext } from './authcontext';
 import { Alert } from 'react-native';
 
-// O tipo Linha foi estendido para incluir a propriedade opcional 'is_favorito'
 export type Linha = {
   id: string;
   nome: string;
@@ -46,7 +45,7 @@ type LinhaContextProps = {
   pontos: PontoItinerario[];
   horarios: HorarioPonto[];
   isLoading: boolean;
-  favoriteLinhas: Linha[]; // Para a lista de favoritos
+  favoriteLinhas: Linha[];
   getLinhasDaEmpresa: () => Promise<void>;
   getLinhasByEmpresaId: (empresaId: string) => Promise<Linha[]>;
   getAllLinhas: () => Promise<Linha[]>;
@@ -58,8 +57,8 @@ type LinhaContextProps = {
   deletePonto: (pontoId: string) => Promise<boolean>;
   getHorariosDaViagem: (viagemId: string) => Promise<void>;
   upsertAllHorarios: (horarios: HorarioUpsertData[]) => Promise<boolean>;
-  getFavoriteLinhas: () => Promise<void>; // Para buscar favoritos
-  toggleFavorito: (linhaId: string, isCurrentlyFavorito: boolean) => Promise<void>; // Para adicionar/remover
+  getFavoriteLinhas: () => Promise<void>;
+  toggleFavorito: (linhaId: string, isCurrentlyFavorito: boolean) => Promise<void>;
 };
 
 export const LinhaContext = createContext<LinhaContextProps>({} as LinhaContextProps);
@@ -298,8 +297,6 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  // Removida a função 'upsertHorario' individual pois 'upsertAllHorarios' é mais eficiente.
-  // Se precisar dela em algum outro lugar, pode mantê-la.
 
   return (
     <LinhaContext.Provider value={{ 

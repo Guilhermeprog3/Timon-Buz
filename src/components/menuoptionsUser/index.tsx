@@ -26,7 +26,6 @@ const MenuOptionsUser: React.FC<MenuOptionsProps> = ({ logout, deleteUserAccount
     setDeleteModalVisible(false);
     try {
         await deleteUserAccount();
-        Alert.alert("Sucesso", "Sua conta foi deletada.");
     } catch (error: any) {
         Alert.alert("Erro", "Não foi possível deletar sua conta. Tente novamente.");
     }

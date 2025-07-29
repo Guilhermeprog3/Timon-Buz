@@ -61,6 +61,7 @@ const DetalheViagemScreen = () => {
     textPrimary: '#FFF',
     textSecondary: '#CCC',
     buttonBackground: '#F9A826',
+    red: '#E57373', // Tom de vermelho mais suave
   };
 
   const styles = StyleSheet.create({
@@ -80,6 +81,7 @@ const DetalheViagemScreen = () => {
     infoRow: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginBottom: 10,
     },
     infoIcon: {
         marginRight: 15,
@@ -96,6 +98,11 @@ const DetalheViagemScreen = () => {
         fontSize: 16,
         color: theme.textPrimary,
         fontWeight: '600',
+    },
+    description: {
+      fontSize: 15,
+      color: theme.textSecondary,
+      lineHeight: 22,
     },
     pontoItem: {
       flexDirection: 'row',
@@ -137,6 +144,26 @@ const DetalheViagemScreen = () => {
       width: 70,
       textAlign: 'right',
     },
+    warningContainer: {
+      backgroundColor: 'rgba(227, 88, 88, 0.1)',
+      borderRadius: 12,
+      padding: 15,
+      marginHorizontal: 20,
+      marginTop: 10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: 'rgba(227, 88, 88, 0.3)',
+    },
+    warningIcon: {
+      marginRight: 12,
+    },
+    warningText: {
+      color: theme.red,
+      fontSize: 14,
+      lineHeight: 20,
+      flex: 1,
+    },
   });
 
   if (isLoading && rotaCompleta.length === 0) {
@@ -166,6 +193,13 @@ const DetalheViagemScreen = () => {
                   <Text style={styles.infoValue}>{formatarDiasSemana(diasSemana)}</Text>
               </View>
           </View>
+           <View style={[styles.infoRow, { marginBottom: 0 }]}>
+              <Ionicons name="information-circle-outline" size={24} color={theme.buttonBackground} style={styles.infoIcon} />
+              <View style={styles.infoTextContainer}>
+                  <Text style={styles.infoTitle}>Itinerário</Text>
+                  <Text style={styles.description}>Acompanhe abaixo a ordem das paradas e o horário previsto de passagem do ônibus.</Text>
+              </View>
+          </View>
       </View>
 
       <FlatList
@@ -183,6 +217,14 @@ const DetalheViagemScreen = () => {
             <Text style={styles.horario}>{item.horario_previsto}</Text>
           </View>
         )}
+        ListFooterComponent={
+            <View style={styles.warningContainer}>
+                <Ionicons name="warning-outline" size={22} color={theme.red} style={styles.warningIcon} />
+                <Text style={styles.warningText}>
+                    Atenção: os horários são previsões e podem sofrer alterações ou atrasos.
+                </Text>
+            </View>
+        }
         contentContainerStyle={{ paddingTop: 10, paddingBottom: 100 }}
       />
     </LinearGradient>

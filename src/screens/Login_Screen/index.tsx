@@ -38,96 +38,102 @@ const LoginScreen = () => {
   };
 
   const styles = StyleSheet.create({
-      container: { 
-        flex: 1 
+    container: { 
+      flex: 1 
+    },
+    scrollContainer: { 
+      flexGrow: 1, 
+      justifyContent: 'center', 
+      paddingHorizontal: 32 
+    },
+    headerContainer: { 
+      alignItems: 'center', 
+      marginBottom: 48 
+    },
+    heading: { 
+      fontSize: 32, 
+      color: theme.textPrimary, 
+      marginBottom: 12, 
+      fontWeight: 'bold' 
+    },
+    subtitle: { 
+      fontSize: 16, 
+      color: theme.textSecondary, 
+      textAlign: 'center' 
+    },
+    inputContainer: { 
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      width: '100%', 
+      height: 56, 
+      borderWidth: 1, 
+      borderRadius: 12, 
+      paddingHorizontal: 16, 
+      backgroundColor: 'rgba(255, 255, 255, 0.08)', 
+      borderColor: 'rgba(255, 255, 255, 0.2)', 
+      marginBottom: 20 
+    },
+    inputIcon: { 
+      marginRight: 12 
+    },
+    input: { 
+      flex: 1, 
+      color: theme.textPrimary, 
+      fontSize: 16 
+    },
+    showPasswordIcon: { 
+      marginLeft: 12, 
+      padding: 4 
+    },
+    errorText: { 
+      color: theme.red, 
+      fontSize: 14, 
+      textAlign: 'center', 
+      marginBottom: 20,
+      fontWeight: 'bold'
+    },
+    button: { 
+      width: '100%', 
+      height: 56, 
+      backgroundColor: theme.buttonBackground,
+      borderRadius: 12, 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      flexDirection: 'row', 
+      marginTop: 8,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 4,
       },
-      scrollContainer: { 
-        flexGrow: 1, 
-        justifyContent: 'center', 
-        paddingHorizontal: 32 
-      },
-      content: { 
-        width: '100%'
-      },
-      headerContainer: { 
-        alignItems: 'center', 
-        marginBottom: 48 
-      },
-      heading: { 
-        fontSize: 28, 
-        color: theme.textPrimary, 
-        marginBottom: 8, 
-        fontWeight: '300' 
-      },
-      subtitle: { 
-        fontSize: 15, 
-        color: theme.textSecondary, 
-        textAlign: 'center' 
-      },
-      inputContainer: { 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        width: '100%', 
-        height: 52, 
-        borderWidth: 1, 
-        borderRadius: 8, 
-        paddingHorizontal: 16, 
-        backgroundColor: 'rgba(255, 255, 255, 0.05)', 
-        borderColor: 'rgba(255, 255, 255, 0.1)', 
-        marginBottom: 20 
-      },
-      inputIcon: { 
-        marginRight: 12 
-      },
-      input: { 
-        flex: 1, 
-        color: theme.textPrimary, 
-        fontSize: 16 
-      },
-      showPasswordIcon: { 
-        marginLeft: 12, 
-        padding: 4 
-      },
-      errorText: { 
-        color: theme.red, 
-        fontSize: 14, 
-        textAlign: 'center', 
-        marginBottom: 15 
-      },
-      button: { 
-        width: '100%', 
-        height: 52, 
-        backgroundColor: theme.buttonBackground,
-        borderRadius: 8, 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        flexDirection: 'row', 
-        marginTop: 8 
-      },
-      buttonText: { 
-        color: theme.buttonText, 
-        fontSize: 16, 
-        fontWeight: 'bold', 
-        marginLeft: isLoading ? 10 : 0 
-      },
-      linksContainer: { 
-        alignItems: 'center', 
-        marginTop: 24 
-      },
-      linkButton: { 
-        paddingVertical: 12 
-      },
-      link: { 
-        color: theme.textPrimary, 
-        fontSize: 14, 
-        opacity: 0.8 
-      },
+      shadowOpacity: 0.3,
+      shadowRadius: 4.65,
+      elevation: 8,
+    },
+    buttonText: { 
+      color: theme.buttonText, 
+      fontSize: 16, 
+      fontWeight: 'bold', 
+      marginLeft: isLoading ? 12 : 0 
+    },
+    linksContainer: { 
+      alignItems: 'center', 
+      marginTop: 24 
+    },
+    linkButton: { 
+      paddingVertical: 12 
+    },
+    link: { 
+      color: theme.textPrimary, 
+      fontSize: 14, 
+      textDecorationLine: 'underline' 
+    },
   });
 
   return (
     <LinearGradient colors={[theme.gradientstartlogin, theme.gradientendlogin]} style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
-        <View style={styles.content}>
+        <View>
           <View style={styles.headerContainer}>
             <Text style={styles.heading}>Bem-vindo de Volta!</Text>
             <Text style={styles.subtitle}>Acesse sua conta para continuar</Text>
@@ -136,19 +142,19 @@ const LoginScreen = () => {
           {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
 
           <View style={styles.inputContainer}>
-            <Ionicons name="mail-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
+            <Ionicons name="mail-outline" size={22} color={theme.textSecondary} style={styles.inputIcon} />
             <TextInput style={styles.input} placeholder="E-mail" placeholderTextColor={theme.textSecondary} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
           </View>
 
           <View style={styles.inputContainer}>
-            <Ionicons name="lock-closed-outline" size={20} color={theme.textSecondary} style={styles.inputIcon} />
+            <Ionicons name="lock-closed-outline" size={22} color={theme.textSecondary} style={styles.inputIcon} />
             <TextInput style={styles.input} placeholder="Senha" placeholderTextColor={theme.textSecondary} secureTextEntry={!showPassword} value={password} onChangeText={setPassword} />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.showPasswordIcon}>
-              <Ionicons name={showPassword ? 'eye-outline' : 'eye-off-outline'} size={20} color={theme.textSecondary} />
+              <Ionicons name={showPassword ? 'eye-outline' : 'eye-off-outline'} size={22} color={theme.textSecondary} />
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
+          <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading} activeOpacity={0.8}>
             {isLoading && <ActivityIndicator size="small" color={theme.buttonText} />}
             <Text style={styles.buttonText}>Entrar</Text>
           </TouchableOpacity>

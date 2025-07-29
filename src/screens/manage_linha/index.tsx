@@ -61,7 +61,6 @@ const ManageLinhaScreen = () => {
       
       const success = await addLinha({ nome, numero, pontos: pontosLocais });
       if (success) {
-        Alert.alert("Sucesso", "Linha criada com sucesso!");
         navigation.goBack();
       }
 
@@ -76,10 +75,7 @@ const ManageLinhaScreen = () => {
   };
   
   const handleUpdateLinha = async () => {
-      const success = await updateLinha(currentLinha!.id, { nome, numero });
-      if (success) {
-          Alert.alert("Sucesso", "Dados da linha atualizados!");
-      }
+      await updateLinha(currentLinha!.id, { nome, numero });
   };
 
   const handleAddPontoLocal = () => {

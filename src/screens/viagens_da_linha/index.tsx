@@ -73,7 +73,14 @@ const ViagensDaLinhaScreen = () => {
     backButton: { marginRight: 15, padding: 5 },
     headerContent: { flex: 1 },
     title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
-    subtitle: { fontSize: 16, color: theme.textSecondary, marginBottom: 10 },
+    subtitle: { fontSize: 16, color: theme.textSecondary, marginBottom: 4 },
+    description: {
+      fontSize: 15,
+      color: theme.textSecondary,
+      paddingHorizontal: 20,
+      marginBottom: 20,
+      lineHeight: 22,
+    },
     loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     item: {
       flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.08)',
@@ -103,6 +110,10 @@ const ViagensDaLinhaScreen = () => {
           <Text style={styles.subtitle}>Selecione a viagem</Text>
         </View>
       </View>
+
+      <Text style={styles.description}>
+        Visualize as viagens programadas para esta linha e seus respectivos dias de funcionamento.
+      </Text>
 
       <View style={styles.searchContainer}>
         <Ionicons name="search-outline" size={22} color={theme.textSecondary} />

@@ -99,13 +99,9 @@ const ManageViagensScreen = () => {
             success = await updateViagem(viagem.id, descricaoViagem.trim(), diasSelecionados);
             if (success) {
                 await upsertAllHorarios(horariosParaSalvar);
-                Alert.alert("Sucesso", "Viagem atualizada com sucesso!");
             }
         } else {
             success = await addViagemWithHorarios(linha.id, descricaoViagem.trim(), horariosParaSalvar, diasSelecionados);
-            if (success) {
-                Alert.alert("Sucesso", "Viagem criada com sucesso!");
-            }
         }
 
         if (success) {

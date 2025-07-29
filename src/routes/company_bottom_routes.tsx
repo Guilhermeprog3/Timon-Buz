@@ -1,12 +1,15 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet } from 'react-native';
 import CompanyHomeScreen from '../screens/company_home';
 import CompanyUserScreen from '../screens/company_user';
 
 const CompanyBottomRoutes = () => {
     const theme = { 
-        gradientStart: '#041C32', textSecondary: '#CCC', buttonBackground: '#F9A826' 
+        gradientStart: '#041C32', 
+        textSecondary: '#8E9BA4', 
+        buttonBackground: '#F9A826' 
     };
     const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -15,11 +18,7 @@ const CompanyBottomRoutes = () => {
             screenOptions={({ route }) => ({
                 headerShown: false,
                 tabBarShowLabel: false,
-                tabBarStyle: { 
-                  position: 'absolute', bottom: 25, left: 20, right: 20,
-                  borderRadius: 15, height: 60, backgroundColor: theme.gradientStart,
-                  borderTopWidth: 0, elevation: 5
-                },
+                tabBarStyle: styles.tabBar,
                 tabBarActiveTintColor: theme.buttonBackground,
                 tabBarInactiveTintColor: theme.textSecondary,
                 tabBarIcon: ({ color, size, focused }) => {
@@ -35,5 +34,23 @@ const CompanyBottomRoutes = () => {
         </Navigator>
     );
 };
+
+const styles = StyleSheet.create({
+  tabBar: { 
+    position: 'absolute', 
+    bottom: 25, 
+    left: 20, 
+    right: 20,
+    borderRadius: 20, 
+    height: 65, 
+    backgroundColor: 'rgba(4, 28, 50, 0.95)',
+    borderTopWidth: 0, 
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+  }
+});
 
 export default CompanyBottomRoutes;
