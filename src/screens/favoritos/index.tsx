@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
 import { Linha, LinhaContext } from '../../context/linhacontext';
 import theme from "../../colors/index"
+
 const FavoritosScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const { favoriteLinhas, getFavoriteLinhas, isLoading, toggleFavorito } = useContext(LinhaContext);
@@ -12,9 +13,8 @@ const FavoritosScreen = () => {
   useFocusEffect(
     useCallback(() => {
       getFavoriteLinhas();
-    }, [])
+    }, [getFavoriteLinhas])
   );
-
 
   const styles = StyleSheet.create({
     container: { 
@@ -62,7 +62,8 @@ const FavoritosScreen = () => {
     },
     itemSubtitle: { 
       color: theme.textSecondary, 
-      fontSize: 14 
+      fontSize: 14,
+      marginTop: 2,
     },
     emptyContainer: {
       flex: 1, 
@@ -104,6 +105,7 @@ const FavoritosScreen = () => {
                 <View style={styles.itemTextContainer}>
                     <Text style={styles.itemTitle}>{item.nome}</Text>
                     <Text style={styles.itemSubtitle}>Número: {item.numero}</Text>
+                    <Text style={styles.itemSubtitle}>Empresa: {item.empresas?.nome || 'Não informada'}</Text>
                 </View>
                 <TouchableOpacity style={styles.favoriteButton} onPress={() => toggleFavorito(item.id, true)}>
                     <Ionicons name="heart" size={26} color={theme.red} />

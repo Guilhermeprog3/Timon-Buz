@@ -9,7 +9,10 @@ export type Linha = {
   numero: string;
   empresa_id: string;
   created_at: string;
-  is_favorito?: boolean; 
+  is_favorito?: boolean;
+  empresas?: {
+    nome: string;
+  };
 };
 
 export type PontoItinerario = {
@@ -80,11 +83,11 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
     try {
       const { data, error } = await supabase
         .from('linhas')
-        .select('*')
+        .select('*, empresas(nome)')
         .eq('empresa_id', profile.empresa_id)
         .order('created_at', { ascending: false });
       if (error) throw error;
-      setLinhas(data || []);
+      setLinhas((data as any) || []);
     } catch (error: any) {
       Alert.alert("Erro", "Não foi possível carregar as linhas da sua empresa.");
     } finally {
@@ -96,30 +99,30 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
     try {
       const { data, error } = await supabase
         .from('linhas')
-        .select('*')
+        .select('*, empresas(nome)')
         .eq('empresa_id', empresaId)
         .order('nome', { ascending: true });
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error: any) {
       Alert.alert("Erro", "Não foi possível carregar as linhas desta empresa.");
       return [];
     }
   };
-
-  const getAllLinhas = async (): Promise<Linha[]> => {
+    
+  const getAllLinhas = useCallback(async (): Promise<Linha[]> => {
     try {
       const { data, error } = await supabase
         .from('linhas')
-        .select('*')
+        .select('*, empresas ( nome )')
         .order('nome', { ascending: true });
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error: any) {
       Alert.alert("Erro", "Não foi possível carregar todas as linhas.");
       return [];
     }
-  };
+  }, []);
 
   const getFavoriteLinhas = useCallback(async () => {
     if (!user) return;
@@ -127,7 +130,7 @@ export const LinhaProvider = ({ children }: PropsWithChildren) => {
     try {
       const { data, error } = await supabase
         .from('favoritos')
-        .select('linhas(*)')
+        .select('linhas(*, empresas(nome))')
         .eq('user_id', user.id);
       if (error) throw error;
       const linhasFavoritas = data?.map(fav => fav.linhas) as unknown as Linha[] || [];

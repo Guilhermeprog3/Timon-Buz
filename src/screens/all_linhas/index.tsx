@@ -4,7 +4,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
 import { Linha, LinhaContext } from '../../context/linhacontext';
-import theme from "../../colors/index"
+import theme from "../../colors/index" 
+
 const AllLinhasScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const { getAllLinhas, favoriteLinhas, getFavoriteLinhas, toggleFavorito, isLoading: contextIsLoading } = useContext(LinhaContext);
@@ -16,19 +17,19 @@ const AllLinhasScreen = () => {
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [filteredLinhas, setFilteredLinhas] = useState<Linha[]>([]);
 
+  const fetchAllData = useCallback(async () => {
+    setIsLoading(true);
+    await Promise.all([
+        getAllLinhas().then(setLinhas),
+        getFavoriteLinhas()
+    ]);
+    setIsLoading(false);
+  }, [getAllLinhas, getFavoriteLinhas]);
+
   useFocusEffect(
     useCallback(() => {
-      const fetchAllData = async () => {
-        setIsLoading(true);
-        await Promise.all([
-            getAllLinhas().then(setLinhas),
-            getFavoriteLinhas()
-        ]);
-        setIsLoading(false);
-      };
-      
       fetchAllData();
-    }, [])
+    }, [fetchAllData])
   );
 
   useEffect(() => {
@@ -59,7 +60,6 @@ const AllLinhasScreen = () => {
   const handleToggleFavorito = async (linha: Linha) => {
     await toggleFavorito(linha.id, !!linha.is_favorito);
   };
-
 
   const styles = StyleSheet.create({
     container: { 
@@ -107,7 +107,8 @@ const AllLinhasScreen = () => {
     },
     itemSubtitle: { 
       color: theme.textSecondary, 
-      fontSize: 14 
+      fontSize: 14,
+      marginTop: 2,
     },
     emptyContainer: { 
       flex: 1, 
@@ -141,12 +142,12 @@ const AllLinhasScreen = () => {
     },
     favoriteButton: { 
       padding: 10, 
-      marginLeft: 5 },
+      marginLeft: 5 
+    },
   });
+
   const currentIsLoading = isLoading || contextIsLoading;
-    function fetchAllData(): void {
-        throw new Error('Function not implemented.');
-    }
+
   return (
     <LinearGradient colors={[theme.gradientStart, theme.gradientEnd]} style={styles.container}>
       <View style={styles.header}>
@@ -186,6 +187,7 @@ const AllLinhasScreen = () => {
                 <View style={styles.itemTextContainer}>
                     <Text style={styles.itemTitle}>{item.nome}</Text>
                     <Text style={styles.itemSubtitle}>Número: {item.numero}</Text>
+                    <Text style={styles.itemSubtitle}>Empresa: {item.empresas?.nome || 'Não informada'}</Text>
                 </View>
                 <TouchableOpacity style={styles.favoriteButton} onPress={() => handleToggleFavorito(item)}>
                     <Ionicons 
