@@ -9,7 +9,12 @@ import AboutScreen from '../screens/about';
 const CompanyPrivateRoutes = () => {
     const { Navigator, Screen } = createNativeStackNavigator();
     return (
-        <Navigator screenOptions={{ headerShown: false }}>
+        <Navigator 
+            screenOptions={{ 
+                headerShown: false,
+                contentStyle: { backgroundColor: '#041C32' } 
+            }}
+        >
             <Screen name="CompanyHomeLayout" component={CompanyBottomRoutes} options={{ animation: 'fade'}} />
             <Screen name="ManageLinha" component={ManageLinhaScreen} options={{ animation: 'slide_from_bottom'}} />
             <Screen name="LinhaDetail" component={LinhaDetailScreen} options={{ animation: 'slide_from_right' }} />
