@@ -128,6 +128,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       await supabase.from('empresas').delete().eq('id', company.id);
       throw new Error("Não foi possível definir o usuário como admin: " + updateError.message);
     }
+
+    const { data: userProfile } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', signUpData.user.id)
+      .single();
+    setProfile(userProfile);
   };
 
   const deleteUserAccount = async () => {

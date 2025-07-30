@@ -51,8 +51,6 @@ const SignUpCompanyScreen = () => {
       companySignUpSchema.parse(formData)
       setIsLoading(true)
       await signUpAsCompanyAdmin(formData)
-      
-      navigation.navigate('VerifyEmail', { email: formData.email });
 
     } catch (error: any) {
       if (error instanceof z.ZodError) {

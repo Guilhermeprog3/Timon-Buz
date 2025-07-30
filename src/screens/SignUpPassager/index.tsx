@@ -33,7 +33,6 @@ const SignUpPassengerScreen = () => {
       signUpSchema.parse({ name, email, password });
       setIsLoading(true);
       await signUpAsPassenger(email, password, name);
-      navigation.navigate('VerifyEmail', { email: email });
     } catch (error) {
       setIsLoading(false);
       if (error instanceof z.ZodError) {
