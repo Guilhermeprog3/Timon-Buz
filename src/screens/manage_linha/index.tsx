@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet, View, Text, TextInput, TouchableOpacity,
-  ActivityIndicator, Keyboard, ScrollView, Alert
-} from 'react-native';
+import {StyleSheet, View, Text, TextInput, TouchableOpacity,ActivityIndicator, Keyboard, ScrollView, Alert} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation, NavigationProp, useRoute, RouteProp } from '@react-navigation/native';
 import { z } from 'zod';
@@ -120,26 +117,77 @@ const ManageLinhaScreen = () => {
   };
 
   const styles = StyleSheet.create({
-    container: { flex: 1, paddingTop: 60 },
-    header: { paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
-    backButton: { marginRight: 15, padding: 5 },
-    title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
-    section: { paddingHorizontal: 20, marginBottom: 20, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.1)', paddingBottom: 20 },
-    sectionTitle: { fontSize: 18, fontWeight: 'bold', color: theme.textPrimary, marginBottom: 15 },
+    container: { 
+      flex: 1, 
+      paddingTop: 60 
+    },
+    header: { 
+      paddingHorizontal: 20, 
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      marginBottom: 20 
+    },
+    backButton: { 
+      marginRight: 15, 
+      padding: 5 
+    },
+    title: { 
+      fontSize: 24, 
+      fontWeight: 'bold', 
+      color: theme.textPrimary 
+    },
+    section: { 
+      paddingHorizontal: 20,
+      marginBottom: 20, 
+      borderBottomWidth: 1, 
+      borderBottomColor: 'rgba(255,255,255,0.1)', 
+      paddingBottom: 20 
+    },
+    sectionTitle: { 
+      fontSize: 18, 
+      fontWeight: 'bold', 
+      color: theme.textPrimary, 
+      marginBottom: 15 
+    },
     input: {
-        backgroundColor: 'rgba(255,255,255,0.08)', height: 50, borderRadius: 8,
-        paddingHorizontal: 15, color: theme.textPrimary, fontSize: 16, marginBottom: 10,
+        backgroundColor: 'rgba(255,255,255,0.08)', 
+        height: 50, 
+        borderRadius: 8,
+        paddingHorizontal: 15, 
+        color: theme.textPrimary, 
+        fontSize: 16, 
+        marginBottom: 10,
     },
     button: {
-        height: 50, backgroundColor: theme.buttonBackground, borderRadius: 8,
-        alignItems: 'center', justifyContent: 'center', flexDirection: 'row',
+        height: 50, 
+        backgroundColor: theme.buttonBackground, 
+        borderRadius: 8,
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        flexDirection: 'row',
     },
-    buttonDisabled: { backgroundColor: '#A9A9A9' },
-    buttonText: { color: theme.buttonText, fontSize: 16, fontWeight: 'bold' },
-    errorText: { color: theme.red, fontSize: 13, marginTop: -5, marginBottom: 10, marginLeft: 4 },
+    buttonDisabled: { 
+      backgroundColor: '#A9A9A9' 
+    },
+    buttonText: { 
+      color: theme.buttonText, 
+      fontSize: 16, 
+      fontWeight: 'bold' 
+    },
+    errorText: { 
+      color: theme.red, 
+      fontSize: 13, 
+      marginTop: -5, 
+      marginBottom: 10, 
+      marginLeft: 4 
+    },
     pontoItem: {
-        backgroundColor: 'rgba(255,255,255,0.05)', padding: 15, borderRadius: 8,
-        flexDirection: 'row', alignItems: 'center', marginHorizontal: 20, marginBottom: 10,
+        backgroundColor: 'rgba(255,255,255,0.05)', 
+        padding: 15, borderRadius: 8,
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        marginHorizontal: 20, 
+        marginBottom: 10,
     },
     pontoText: { flex: 1, color: theme.textPrimary, fontSize: 16 },
   });

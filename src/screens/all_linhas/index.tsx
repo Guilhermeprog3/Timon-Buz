@@ -70,36 +70,91 @@ const AllLinhasScreen = () => {
   };
 
   const styles = StyleSheet.create({
-    container: { flex: 1, paddingTop: 60 },
-    header: { paddingHorizontal: 20, marginBottom: 20 },
-    title: { fontSize: 28, fontWeight: 'bold', color: theme.textPrimary },
-    subtitle: { fontSize: 16, color: theme.textSecondary, marginTop: 4 },
-    loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    container: { 
+      flex: 1, 
+      paddingTop: 60 
+    },
+    header: { 
+      paddingHorizontal: 20, 
+      marginBottom: 20 
+    },
+    title: { 
+      fontSize: 28, 
+      fontWeight: 'bold', 
+      color: theme.textPrimary 
+    },
+    subtitle: { 
+      fontSize: 16, 
+      color: theme.textSecondary, 
+      marginTop: 4 
+    },
+    loadingContainer: { 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center' 
+    },
     item: {
-      flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.08)',
-      paddingVertical: 18, paddingLeft: 18, paddingRight: 12, borderRadius: 12, 
-      marginBottom: 12, marginHorizontal: 20,
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      paddingVertical: 18, 
+      paddingLeft: 18, 
+      paddingRight: 12, 
+      borderRadius: 12, 
+      marginBottom: 12, 
+      marginHorizontal: 20,
     },
-    itemTextContainer: { flex: 1, marginLeft: 15 },
-    itemTitle: { color: theme.textPrimary, fontSize: 18, fontWeight: 'bold' },
-    itemSubtitle: { color: theme.textSecondary, fontSize: 14 },
-    emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50 },
-    emptyText: { color: theme.textSecondary, fontSize: 16, textAlign: 'center' },
+    itemTextContainer: { 
+      flex: 1, 
+      marginLeft: 15 
+    },
+    itemTitle: { 
+      color: theme.textPrimary, 
+      fontSize: 18, 
+      fontWeight: 'bold' 
+    },
+    itemSubtitle: { 
+      color: theme.textSecondary, 
+      fontSize: 14 
+    },
+    emptyContainer: { 
+      flex: 1, 
+      justifyContent: 'center',
+      alignItems: 'center', 
+      marginTop: 50 
+    },
+    emptyText: { 
+      color: theme.textSecondary, 
+      fontSize: 16, 
+      textAlign: 'center' 
+    },
     searchContainer: {
-      flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.08)',
-      borderRadius: 12, paddingHorizontal: 15, marginHorizontal: 20, marginBottom: 20,
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      borderRadius: 12, 
+      paddingHorizontal: 15, 
+      marginHorizontal: 20, 
+      marginBottom: 20,
     },
-    searchInput: { flex: 1, height: 50, color: theme.textPrimary, fontSize: 16, marginLeft: 10 },
-    clearSearchButton: { padding: 5 },
-    favoriteButton: { padding: 10, marginLeft: 5 },
+    searchInput: { 
+      flex: 1, 
+      height: 50, 
+      color: theme.textPrimary, 
+      fontSize: 16, 
+      marginLeft: 10 
+    },
+    clearSearchButton: { 
+      padding: 5 
+    },
+    favoriteButton: { 
+      padding: 10, 
+      marginLeft: 5 },
   });
-  
   const currentIsLoading = isLoading || contextIsLoading;
-
     function fetchAllData(): void {
         throw new Error('Function not implemented.');
     }
-
   return (
     <LinearGradient colors={[theme.gradientStart, theme.gradientEnd]} style={styles.container}>
       <View style={styles.header}>
@@ -124,7 +179,6 @@ const AllLinhasScreen = () => {
           </TouchableOpacity>
         )}
       </View>
-
       {currentIsLoading && filteredLinhas.length === 0 ? (
          <View style={styles.loadingContainer}><ActivityIndicator size="large" color={theme.textPrimary} /></View>
       ) : (

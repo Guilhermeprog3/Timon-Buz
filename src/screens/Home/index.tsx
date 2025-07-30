@@ -47,24 +47,72 @@ const HomeScreen = () => {
   };
 
   const styles = StyleSheet.create({
-    container: { flex: 1, paddingHorizontal: 20, paddingTop: 60 },
-    header: { marginBottom: 20 },
-    title: { fontSize: 28, fontWeight: 'bold', color: theme.textPrimary },
-    subtitle: { fontSize: 16, color: theme.textSecondary, marginTop: 4 },
+    container: { 
+      flex: 1, 
+      paddingHorizontal: 20, 
+      paddingTop: 60 
+    },
+    header: { 
+      marginBottom: 20 
+    },
+    title: { 
+      fontSize: 28, 
+      fontWeight: 'bold', 
+      color: theme.textPrimary 
+    },
+    subtitle: { 
+      fontSize: 16, 
+      color: theme.textSecondary, 
+      marginTop: 4 
+    },
     itemContainer: { 
-        padding: 20, backgroundColor: theme.primaryLight, borderRadius: 10, marginBottom: 15,
-        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+        padding: 20, 
+        backgroundColor: theme.primaryLight, 
+        borderRadius: 10, 
+        marginBottom: 15,
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-between'
     },
-    itemText: { fontSize: 18, color: theme.textPrimary, flex: 1 },
-    loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    itemText: { 
+      fontSize: 18, 
+      color: theme.textPrimary, 
+      flex: 1 
+    },
+    loadingContainer: { 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center' 
+    },
     searchContainer: {
-      flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.08)',
-      borderRadius: 12, paddingHorizontal: 15, marginBottom: 20,
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      borderRadius: 12, 
+      paddingHorizontal: 15, 
+      marginBottom: 20,
     },
-    searchInput: { flex: 1, height: 50, color: theme.textPrimary, fontSize: 16, marginLeft: 10 },
-    clearSearchButton: { padding: 5 },
-    emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50 },
-    emptyText: { color: theme.textSecondary, fontSize: 16, textAlign: 'center' },
+    searchInput: { 
+      flex: 1, 
+      height: 50, 
+      color: theme.textPrimary, 
+      fontSize: 16, 
+      marginLeft: 10 
+    },
+    clearSearchButton: { 
+      padding: 5 
+    },
+    emptyContainer: {
+       flex: 1, 
+       justifyContent: 'center', 
+       alignItems: 'center', 
+       marginTop: 50 
+      },
+    emptyText: { 
+      color: theme.textSecondary, 
+      fontSize: 16, 
+      textAlign: 'center' 
+    },
   });
 
   if (isLoading && !empresas.length) {

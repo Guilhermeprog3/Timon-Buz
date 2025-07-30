@@ -25,22 +25,69 @@ const FavoritosScreen = () => {
   };
 
   const styles = StyleSheet.create({
-    container: { flex: 1, paddingTop: 60 },
-    header: { paddingHorizontal: 20, marginBottom: 20 },
-    title: { fontSize: 28, fontWeight: 'bold', color: theme.textPrimary },
-    subtitle: { fontSize: 16, color: theme.textSecondary, marginTop: 4 },
-    loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    item: {
-      flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.08)',
-      paddingVertical: 18, paddingLeft: 18, paddingRight: 12, borderRadius: 12,
-      marginBottom: 12, marginHorizontal: 20,
+    container: { 
+      flex: 1, 
+      paddingTop: 60 
     },
-    itemTextContainer: { flex: 1, marginLeft: 15 },
-    itemTitle: { color: theme.textPrimary, fontSize: 18, fontWeight: 'bold' },
-    itemSubtitle: { color: theme.textSecondary, fontSize: 14 },
-    emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50 },
-    emptyText: { color: theme.textSecondary, fontSize: 16, textAlign: 'center', lineHeight: 24 },
-    favoriteButton: { padding: 10, marginLeft: 5 },
+    header: { 
+      paddingHorizontal: 20, 
+      marginBottom: 20 
+    },
+    title: { 
+      fontSize: 28, 
+      fontWeight: 'bold', 
+      color: theme.textPrimary 
+    },
+    subtitle: { 
+      fontSize: 16, 
+      color: theme.textSecondary, 
+      marginTop: 4 
+    },
+    loadingContainer: { 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center' 
+    },
+    item: {
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      paddingVertical: 18, 
+      paddingLeft: 18, 
+      paddingRight: 12, 
+      borderRadius: 12,
+      marginBottom: 12, 
+      marginHorizontal: 20,
+    },
+    itemTextContainer: { 
+      flex: 1, 
+      marginLeft: 15 
+    },
+    itemTitle: { 
+      color: theme.textPrimary, 
+      fontSize: 18, 
+      fontWeight: 'bold' 
+    },
+    itemSubtitle: { 
+      color: theme.textSecondary, 
+      fontSize: 14 
+    },
+    emptyContainer: {
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      marginTop: 50
+    },
+    emptyText: { 
+      color: theme.textSecondary, 
+      fontSize: 16, 
+      textAlign: 'center', 
+      lineHeight: 24 
+    },
+    favoriteButton: { 
+      padding: 10,
+      marginLeft: 5 
+    },
   });
 
   return (

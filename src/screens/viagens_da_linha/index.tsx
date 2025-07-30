@@ -68,12 +68,33 @@ const ViagensDaLinhaScreen = () => {
   };
 
   const styles = StyleSheet.create({
-    container: { flex: 1, paddingTop: 60 },
-    header: { paddingHorizontal: 20, marginBottom: 10, flexDirection: 'row', alignItems: 'center' },
-    backButton: { marginRight: 15, padding: 5 },
-    headerContent: { flex: 1 },
-    title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
-    subtitle: { fontSize: 16, color: theme.textSecondary, marginBottom: 4 },
+    container: { 
+      flex: 1, 
+      paddingTop: 60 
+    },
+    header: { 
+      paddingHorizontal: 20, 
+      marginBottom: 10, 
+      flexDirection: 'row', 
+      alignItems: 'center' 
+    },
+    backButton: { 
+      marginRight: 15, 
+      padding: 5 
+    },
+    headerContent: { 
+      flex: 1 
+    },
+    title: { 
+      fontSize: 24, 
+      fontWeight: 'bold', 
+      color: theme.textPrimary 
+    },
+    subtitle: { 
+      fontSize: 16, 
+      color: theme.textSecondary, 
+      marginBottom: 4 
+    },
     description: {
       fontSize: 15,
       color: theme.textSecondary,
@@ -81,22 +102,63 @@ const ViagensDaLinhaScreen = () => {
       marginBottom: 20,
       lineHeight: 22,
     },
-    loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    loadingContainer: { 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center' 
+    },
     item: {
-      flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.08)',
-      padding: 18, borderRadius: 12, marginBottom: 12, marginHorizontal: 20,
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      padding: 18, 
+      borderRadius: 12, 
+      marginBottom: 12, 
+      marginHorizontal: 20,
     },
-    itemTextContainer: { flex: 1, marginLeft: 15 },
-    itemTitle: { color: theme.textPrimary, fontSize: 18 },
-    itemSubtitle: { color: theme.textSecondary, fontSize: 14, marginTop: 4 },
-    emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50 },
-    emptyText: { color: theme.textSecondary, fontSize: 16, textAlign: 'center' },
+    itemTextContainer: { 
+      flex: 1, 
+      marginLeft: 15 
+    },
+    itemTitle: { 
+      color: theme.textPrimary, 
+      fontSize: 18 
+    },
+    itemSubtitle: { 
+      color: theme.textSecondary, 
+      fontSize: 14, 
+      marginTop: 4 
+    },
+    emptyContainer: { 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      marginTop: 50 
+    },
+    emptyText: { 
+      color: theme.textSecondary, 
+      fontSize: 16, 
+      textAlign: 'center' 
+    },
     searchContainer: {
-      flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.08)',
-      borderRadius: 12, paddingHorizontal: 15, marginHorizontal: 20, marginBottom: 20,
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      borderRadius: 12, 
+      paddingHorizontal: 15, 
+      marginHorizontal: 20, 
+      marginBottom: 20,
     },
-    searchInput: { flex: 1, height: 50, color: theme.textPrimary, fontSize: 16, marginLeft: 10 },
-    clearSearchButton: { padding: 5 },
+    searchInput: { 
+      flex: 1, 
+      height: 50, 
+      color: theme.textPrimary, 
+      fontSize: 16, 
+      marginLeft: 10 
+    },
+    clearSearchButton: { 
+      padding: 5 
+    },
   });
 
   return (

@@ -16,7 +16,6 @@ const LinhasPorEmpresaScreen = () => {
   const [linhas, setLinhas] = useState<Linha[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Estados para a pesquisa
   const [searchQuery, setSearchQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [filteredLinhas, setFilteredLinhas] = useState<Linha[]>([]);
@@ -32,7 +31,7 @@ const LinhasPorEmpresaScreen = () => {
 
       if (error) throw error;
       setLinhas(data || []);
-      setFilteredLinhas(data || []); // Inicializa a lista filtrada
+      setFilteredLinhas(data || []);
     } catch (error: any) {
         console.error("Erro ao buscar linhas por empresa:", error.message)
         alert("Não foi possível carregar as linhas desta empresa.");
@@ -45,7 +44,6 @@ const LinhasPorEmpresaScreen = () => {
     fetchLinhas();
   }, [empresaId]);
 
-  // Efeito para filtrar a lista
   useEffect(() => {
     if (submittedQuery.trim() === '') {
       setFilteredLinhas(linhas);
@@ -76,28 +74,90 @@ const LinhasPorEmpresaScreen = () => {
   };
 
   const styles = StyleSheet.create({
-    container: { flex: 1, paddingTop: 60 },
-    header: { paddingHorizontal: 20, marginBottom: 10, flexDirection: 'row', alignItems: 'center' },
-    backButton: { marginRight: 15, padding: 5 },
-    headerContent: { flex: 1 },
-    title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
-    subtitle: { fontSize: 16, color: theme.textSecondary, marginBottom: 10 },
-    loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    container: { 
+      flex: 1, 
+      paddingTop: 60 
+    },
+    header: { 
+      paddingHorizontal: 20, 
+      marginBottom: 10, 
+      flexDirection: 'row', 
+      alignItems: 'center' 
+    },
+    backButton: { 
+      marginRight: 15, 
+      padding: 5 
+    },
+    headerContent: { 
+      flex: 1 
+    },
+    title: { 
+      fontSize: 24, 
+      fontWeight: 'bold', 
+      color: theme.textPrimary 
+    },
+    subtitle: { 
+      fontSize: 16, 
+      color: theme.textSecondary, 
+      marginBottom: 10 
+    },
+    loadingContainer: { 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center' 
+    },
     linhaItem: {
-      flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.08)',
-      padding: 18, borderRadius: 12, marginBottom: 12, marginHorizontal: 20,
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      padding: 18, 
+      borderRadius: 12, 
+      marginBottom: 12, 
+      marginHorizontal: 20,
     },
-    linhaTextContainer: { flex: 1, marginLeft: 15 },
-    linhaNome: { color: theme.textPrimary, fontSize: 18, fontWeight: 'bold' },
-    linhaNumero: { color: theme.textSecondary, fontSize: 14 },
-    emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50 },
-    emptyText: { color: theme.textSecondary, fontSize: 16, textAlign: 'center' },
+    linhaTextContainer: { 
+      flex: 1, 
+      marginLeft: 15 
+    },
+    linhaNome: { 
+      color: theme.textPrimary, 
+      fontSize: 18, 
+      fontWeight: 'bold' 
+    },
+    linhaNumero: { 
+      color: theme.textSecondary, 
+      fontSize: 14 
+    },
+    emptyContainer: { 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      marginTop: 50 
+    },
+    emptyText: { 
+      color: theme.textSecondary, 
+      fontSize: 16, 
+      textAlign: 'center' 
+    },
     searchContainer: {
-      flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.08)',
-      borderRadius: 12, paddingHorizontal: 15, marginHorizontal: 20, marginBottom: 20,
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      borderRadius: 12, 
+      paddingHorizontal: 15, 
+      marginHorizontal: 20, 
+      marginBottom: 20,
     },
-    searchInput: { flex: 1, height: 50, color: theme.textPrimary, fontSize: 16, marginLeft: 10 },
-    clearSearchButton: { padding: 5 },
+    searchInput: { 
+      flex: 1, 
+      height: 50, 
+      color: theme.textPrimary, 
+      fontSize: 16, 
+      marginLeft: 10 
+    },
+    clearSearchButton: { 
+      padding: 5 
+    },
   });
 
   return (

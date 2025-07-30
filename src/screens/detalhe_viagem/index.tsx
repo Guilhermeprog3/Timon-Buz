@@ -61,16 +61,36 @@ const DetalheViagemScreen = () => {
     textPrimary: '#FFF',
     textSecondary: '#CCC',
     buttonBackground: '#F9A826',
-    red: '#E57373', // Tom de vermelho mais suave
+    red: '#E57373',
   };
 
   const styles = StyleSheet.create({
-    container: { flex: 1, paddingTop: 60 },
-    header: { paddingHorizontal: 20, marginBottom: 10, flexDirection: 'row', alignItems: 'center' },
-    backButton: { marginRight: 15, padding: 5 },
-    headerContent: { flex: 1 },
-    title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
-    loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    container: { 
+      flex: 1, 
+      paddingTop: 60 },
+    header: { 
+      paddingHorizontal: 20, 
+      marginBottom: 10, 
+      flexDirection: 'row', 
+      alignItems: 'center' 
+    },
+    backButton: { 
+      marginRight: 15,
+      padding: 5 
+    },
+    headerContent: { 
+      flex: 1 
+    },
+    title: { 
+      fontSize: 24, 
+      fontWeight: 'bold', 
+      color: theme.textPrimary 
+    },
+    loadingContainer: { 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center' 
+    },
     infoSection: {
         backgroundColor: 'rgba(255,255,255,0.05)',
         marginHorizontal: 20,

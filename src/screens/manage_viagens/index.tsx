@@ -115,17 +115,53 @@ const ManageViagensScreen = () => {
     };
 
     const styles = StyleSheet.create({
-        container: { flex: 1, paddingTop: 60 },
-        header: { paddingHorizontal: 20, marginBottom: 10, flexDirection: 'row', alignItems: 'center' },
-        backButton: { marginRight: 15, padding: 5 },
-        headerContent: { flex: 1 },
-        title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
-        subtitle: { fontSize: 16, color: theme.textSecondary },
-        section: { marginBottom: 20, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.1)', paddingBottom: 20 },
-        sectionTitle: { fontSize: 18, fontWeight: 'bold', color: theme.textPrimary, marginBottom: 15, paddingHorizontal: 20 },
+        container: { 
+            flex: 1, 
+            paddingTop: 60 
+        },
+        header: { 
+            paddingHorizontal: 20, 
+            marginBottom: 10, 
+            flexDirection: 'row', 
+            alignItems: 'center' 
+        },
+        backButton: { 
+            marginRight: 15,
+            padding: 5 
+        },
+        headerContent: { 
+            flex: 1 
+        },
+        title: { 
+            fontSize: 24, 
+            fontWeight: 'bold', 
+            color: theme.textPrimary 
+        },
+        subtitle: { 
+            fontSize: 16, 
+            color: theme.textSecondary 
+        },
+        section: { 
+            marginBottom: 20, 
+            borderBottomWidth: 1, 
+            borderBottomColor: 'rgba(255,255,255,0.1)', 
+            paddingBottom: 20 
+        },
+        sectionTitle: { 
+            fontSize: 18, 
+            fontWeight: 'bold', 
+            color: theme.textPrimary, 
+            marginBottom: 15, 
+            paddingHorizontal: 20 
+        },
         input: {
-            backgroundColor: 'rgba(255,255,255,0.08)', height: 50, borderRadius: 8,
-            paddingHorizontal: 15, color: theme.textPrimary, fontSize: 16, marginBottom: 10,
+            backgroundColor: 'rgba(255,255,255,0.08)', 
+            height: 50, 
+            borderRadius: 8,
+            paddingHorizontal: 15, 
+            color: theme.textPrimary, 
+            fontSize: 16, 
+            marginBottom: 10,
         },
         diasContainer: {
             flexDirection: 'row',
@@ -152,20 +188,45 @@ const ManageViagensScreen = () => {
             color: theme.buttonText,
         },
         pontoItem: {
-            backgroundColor: 'rgba(255,255,255,0.08)', padding: 15, borderRadius: 12,
-            marginBottom: 10, marginHorizontal: 20,
+            backgroundColor: 'rgba(255,255,255,0.08)', 
+            padding: 15, 
+            borderRadius: 12,
+            marginBottom: 10, 
+            marginHorizontal: 20,
         },
-        pontoDescricao: { flex: 1, color: theme.textPrimary, fontSize: 16, marginRight: 10 },
-        horarioContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 15 },
+        pontoDescricao: { 
+            flex: 1, 
+            color: theme.textPrimary, 
+            fontSize: 16, 
+            marginRight: 10 },
+        horarioContainer: { 
+            flexDirection: 'row', 
+            alignItems: 'center', 
+            marginTop: 15 
+        },
         horarioInput: {
-            flex: 1, color: theme.textPrimary, backgroundColor: 'rgba(0,0,0,0.2)',
-            height: 44, borderRadius: 8, textAlign: 'center', fontSize: 18,
+            flex: 1, 
+            color: theme.textPrimary, 
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            height: 44, 
+            borderRadius: 8, 
+            textAlign: 'center', 
+            fontSize: 18,
         },
         fullSaveButton: {
-            height: 50, backgroundColor: theme.buttonBackground, borderRadius: 8,
-            alignItems: 'center', justifyContent: 'center', flexDirection: 'row', margin: 20
+            height: 50, 
+            backgroundColor: theme.buttonBackground, 
+            borderRadius: 8,
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            flexDirection: 'row', 
+            margin: 20
         },
-        buttonText: { color: theme.buttonText, fontSize: 16, fontWeight: 'bold' },
+        buttonText: { 
+            color: theme.buttonText, 
+            fontSize: 16, 
+            fontWeight: 'bold' 
+        },
     });
 
     return (

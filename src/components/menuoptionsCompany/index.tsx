@@ -32,8 +32,12 @@ const MenuOptionsCompany: React.FC<MenuOptionsProps> = ({ logout, deleteUserAcco
   };
 
   const theme = { 
-    gradientEnd: '#041C32', textPrimary: '#FFF', textSecondary: '#CCC',
-    buttonBackground: '#F9A826', secondary: '#F9A826', red: '#D32F2F' 
+    gradientEnd: '#041C32', 
+    textPrimary: '#FFF', 
+    textSecondary: '#CCC',
+    buttonBackground: '#F9A826', 
+    secondary: '#F9A826', 
+    red: '#D32F2F' 
   };
   
   const styles = StyleSheet.create({
@@ -82,38 +86,61 @@ const MenuOptionsCompany: React.FC<MenuOptionsProps> = ({ logout, deleteUserAcco
       color: theme.red
     },
     modalOverlay: { 
-      flex: 1, justifyContent: 'center', alignItems: 'center', 
+      flex: 1, 
+      justifyContent: 'center',
+      alignItems: 'center', 
       backgroundColor: 'rgba(0, 0, 0, 0.7)' 
     },
     modalContainer: { 
-       width: '85%', backgroundColor: theme.gradientEnd,
-       borderRadius: 20, padding: 24, alignItems: 'center', 
-       shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, 
-       shadowOpacity: 0.3, shadowRadius: 5, elevation: 8 
+       width: '85%', 
+       backgroundColor: theme.gradientEnd,
+       borderRadius: 20, 
+       padding: 24, 
+       alignItems: 'center', 
+       shadowColor: '#000', 
+       shadowOffset: { width: 0, height: 4 }, 
+       shadowOpacity: 0.3, 
+       shadowRadius: 5, 
+       elevation: 8 
     },
     modalTitle: { 
-      fontSize: 20, fontWeight: 'bold', color: theme.textPrimary, 
-      marginBottom: 8, textAlign: 'center' 
+      fontSize: 20, 
+      fontWeight: 'bold', 
+      color: theme.textPrimary, 
+      marginBottom: 8, 
+      textAlign: 'center' 
     },
     modalMessage: { 
-      fontSize: 16, color: theme.textSecondary, textAlign: 'center', 
-      marginBottom: 24, lineHeight: 22 
+      fontSize: 16, 
+      color: theme.textSecondary, 
+      textAlign: 'center', 
+      marginBottom: 24, 
+      lineHeight: 22 
     },
     modalButtonContainer: { 
-      flexDirection: 'row', width: '100%', justifyContent: 'space-between' 
+      flexDirection: 'row', 
+      width: '100%', 
+      justifyContent: 'space-between' 
     },
     modalButton: { 
-      flex: 1, paddingVertical: 14, borderRadius: 12, 
-      alignItems: 'center', justifyContent: 'center' 
+      flex: 1, 
+      paddingVertical: 14, 
+      borderRadius: 12, 
+      alignItems: 'center', 
+      justifyContent: 'center' 
     },
     cancelButton: { 
-      backgroundColor: 'rgba(255,255,255,0.1)', marginRight: 8 
+      backgroundColor: 'rgba(255,255,255,0.1)', 
+      marginRight: 8 
     },
     confirmButton: { 
-      backgroundColor: theme.red, marginLeft: 8 
+      backgroundColor: theme.red, 
+      marginLeft: 8 
     },
     modalButtonText: { 
-      fontSize: 16, fontWeight: 'bold', color: '#FFF' 
+      fontSize: 16, 
+      fontWeight: 'bold', 
+      color: '#FFF' 
     },
   });
 

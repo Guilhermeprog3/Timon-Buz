@@ -41,68 +41,166 @@ const LinhaDetailScreen = () => {
     };
 
     const theme = { 
-        gradientStart: '#041C32', gradientEnd: '#0D3B66', textPrimary: '#FFF', 
-        textSecondary: '#CCC', buttonBackground: '#F9A826', red: '#D32F2F', buttonText: '#041C32'
+        gradientStart: '#041C32', 
+        gradientEnd: '#0D3B66', 
+        textPrimary: '#FFF', 
+        textSecondary: '#CCC', 
+        buttonBackground: '#F9A826', 
+        red: '#D32F2F', 
+        buttonText: '#041C32'
     };
 
     const styles = StyleSheet.create({
-        container: { flex: 1, paddingTop: 60 },
-        header: { paddingHorizontal: 20, marginBottom: 20, flexDirection: 'row', alignItems: 'center' },
-        backButton: { marginRight: 15, padding: 5 },
-        headerContent: { flex: 1 },
-        title: { fontSize: 24, fontWeight: 'bold', color: theme.textPrimary },
-        subtitle: { fontSize: 16, color: theme.textSecondary },
-        actionsContainer: { paddingHorizontal: 20, marginBottom: 20 },
+        container: { 
+            flex: 1, 
+            paddingTop: 60 
+        },
+        header: { 
+            paddingHorizontal: 20, 
+            marginBottom: 20, 
+            flexDirection: 'row', 
+            alignItems: 'center' 
+        },
+        backButton: { 
+            marginRight: 15, 
+            padding: 5 
+        },
+        headerContent: { 
+            flex: 1 
+        },
+        title: { 
+            fontSize: 24, 
+            fontWeight: 'bold', 
+            color: theme.textPrimary 
+        },
+        subtitle: { 
+            fontSize: 16, 
+            color: theme.textSecondary 
+        },
+        actionsContainer: { 
+            paddingHorizontal: 20, 
+            marginBottom: 20 
+        },
         actionButton: {
-            backgroundColor: 'rgba(255,255,255,0.08)', padding: 15, borderRadius: 12,
-            flexDirection: 'row', alignItems: 'center',
+            backgroundColor: 'rgba(255,255,255,0.08)',
+            padding: 15, 
+            borderRadius: 12,
+            flexDirection: 'row', 
+            alignItems: 'center',
         },
-        actionButtonText: { color: theme.textPrimary, fontSize: 16, marginLeft: 10 },
-        listHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, marginBottom: 15, marginTop: 10 },
-        listTitle: { fontSize: 20, fontWeight: 'bold', color: theme.textPrimary },
-        addButton: { backgroundColor: theme.buttonBackground, padding: 8, borderRadius: 10 },
+        actionButtonText: { 
+            color: theme.textPrimary, 
+            fontSize: 16, 
+            marginLeft: 10 
+        },
+        listHeader: { 
+            flexDirection: 'row', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            paddingHorizontal: 20, 
+            marginBottom: 15, 
+            marginTop: 10 
+        },
+        listTitle: { 
+            fontSize: 20, 
+            fontWeight: 'bold', 
+            color: theme.textPrimary 
+        },
+        addButton: { 
+            backgroundColor: theme.buttonBackground, 
+            padding: 8, 
+            borderRadius: 10 
+        },
         viagemItem: {
-            backgroundColor: 'rgba(255,255,255,0.08)', padding: 18, marginHorizontal: 20,
-            borderRadius: 12, flexDirection: 'row', alignItems: 'center', marginBottom: 10,
+            backgroundColor: 'rgba(255,255,255,0.08)', 
+            padding: 18, 
+            marginHorizontal: 20,
+            borderRadius: 12, 
+            flexDirection: 'row', 
+            alignItems: 'center', 
+            marginBottom: 10,
         },
-        viagemText: { flex: 1, color: theme.textPrimary, fontSize: 16, marginLeft: 15 },
-        deleteButton: { padding: 5 },
-        emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50 },
-        emptyText: { color: theme.textSecondary, fontSize: 16, textAlign: 'center' },
-        loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+        viagemText: { 
+            flex: 1, 
+            color: theme.textPrimary, 
+            fontSize: 16, 
+            marginLeft: 15 
+        },
+        deleteButton: { 
+            padding: 5 
+        },
+        emptyContainer: { 
+            flex: 1, 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            marginTop: 50 
+        },
+        emptyText: { 
+            color: theme.textSecondary, 
+            fontSize: 16, 
+            textAlign: 'center' 
+        },
+        loadingContainer: { 
+            flex: 1, 
+            justifyContent: 'center', 
+            alignItems: 'center' 
+        },
         modalOverlay: { 
-          flex: 1, justifyContent: 'center', alignItems: 'center', 
+          flex: 1, 
+          justifyContent: 'center', 
+          alignItems: 'center', 
           backgroundColor: 'rgba(0, 0, 0, 0.7)' 
         },
         modalContainer: { 
-           width: '85%', backgroundColor: theme.gradientEnd,
-           borderRadius: 20, padding: 24, alignItems: 'center', 
-           shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, 
-           shadowOpacity: 0.3, shadowRadius: 5, elevation: 8 
+           width: '85%', 
+           backgroundColor: theme.gradientEnd,
+           borderRadius: 20, 
+           padding: 24, 
+           alignItems: 'center', 
+           shadowColor: '#000', 
+           shadowOffset: { width: 0, height: 4 }, 
+           shadowOpacity: 0.3, 
+           shadowRadius: 5, 
+           elevation: 8 
         },
         modalTitle: { 
-          fontSize: 20, fontWeight: 'bold', color: theme.textPrimary, 
-          marginBottom: 8, textAlign: 'center' 
+          fontSize: 20, 
+          fontWeight: 'bold', 
+          color: theme.textPrimary, 
+          marginBottom: 8, 
+          textAlign: 'center' 
         },
         modalMessage: { 
-          fontSize: 16, color: theme.textSecondary, textAlign: 'center', 
-          marginBottom: 24, lineHeight: 22 
+          fontSize: 16, 
+          color: theme.textSecondary, 
+          textAlign: 'center', 
+          marginBottom: 24, 
+          lineHeight: 22 
         },
         modalButtonContainer: { 
-          flexDirection: 'row', width: '100%', justifyContent: 'space-between' 
+          flexDirection: 'row', 
+          width: '100%', 
+          justifyContent: 'space-between' 
         },
         modalButton: { 
-          flex: 1, paddingVertical: 14, borderRadius: 12, 
-          alignItems: 'center', justifyContent: 'center' 
+          flex: 1, 
+          paddingVertical: 14, 
+          borderRadius: 12, 
+          alignItems: 'center', 
+          justifyContent: 'center' 
         },
         cancelButton: { 
-          backgroundColor: 'rgba(255,255,255,0.1)', marginRight: 8 
+          backgroundColor: 'rgba(255,255,255,0.1)', 
+          marginRight: 8 
         },
         confirmButton: { 
-          backgroundColor: theme.red, marginLeft: 8 
+          backgroundColor: theme.red,
+           marginLeft: 8 
         },
         modalButtonText: { 
-          fontSize: 16, fontWeight: 'bold', color: '#FFF' 
+          fontSize: 16, 
+          fontWeight: 'bold', 
+          color: '#FFF' 
         },
     });
 

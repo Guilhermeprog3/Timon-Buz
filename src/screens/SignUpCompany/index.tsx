@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-  Keyboard,
-  ScrollView,
+import { StyleSheet,View,Text,TextInput,TouchableOpacity,ActivityIndicator,Keyboard,ScrollView,
 } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Ionicons } from '@expo/vector-icons'
