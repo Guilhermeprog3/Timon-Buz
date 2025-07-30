@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, RefreshControl, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
-import { Linha } from '../../context/linhacontext';
-import { supabase } from '../../service/supabase';
+import { Linha, LinhaContext } from '../../context/linhacontext';
 import theme from "../../colors/index"
 
 type LinhasPorEmpresaRouteProp = RouteProp<{ LinhasPorEmpresa: { empresaId: string; empresaNome: string } }, 'LinhasPorEmpresa'>;
@@ -13,6 +12,8 @@ const LinhasPorEmpresaScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const route = useRoute<LinhasPorEmpresaRouteProp>();
   const { empresaId, empresaNome } = route.params;
+
+  const { getLinhasByEmpresaId } = useContext(LinhaContext);
 
   const [linhas, setLinhas] = useState<Linha[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,18 +25,10 @@ const LinhasPorEmpresaScreen = () => {
   const fetchLinhas = async () => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('linhas')
-        .select('*')
-        .eq('empresa_id', empresaId)
-        .order('nome', { ascending: true });
-
-      if (error) throw error;
-      setLinhas(data || []);
-      setFilteredLinhas(data || []);
-    } catch (error: any) {
-        console.error("Erro ao buscar linhas por empresa:", error.message)
-        alert("Não foi possível carregar as linhas desta empresa.");
+      const data = await getLinhasByEmpresaId(empresaId);
+      setLinhas(data);
+    } catch (error) {
+        console.error("Erro ao buscar linhas por empresa:", error);
     } finally {
         setIsLoading(false);
     }

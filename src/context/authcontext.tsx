@@ -5,7 +5,7 @@ import { Session, User } from '@supabase/supabase-js';
 export type UserProfile = {
   id: string;
   name: string;
-  role: 'passageiro' | 'motorista' | 'admin';
+  role: 'passageiro' | 'admin';
   empresa_id: string | null;
 };
 
@@ -25,7 +25,6 @@ type AuthContextProps = {
   login: (email: string, password: string) => Promise<void>;
   signUpAsPassenger: (email: string, password: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
-  resendConfirmationEmail: (email: string) => Promise<void>;
   signUpAsCompanyAdmin: (companyData: CompanySignUpData) => Promise<void>;
   deleteUserAccount: () => Promise<void>;
 };
@@ -98,11 +97,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     if (error) throw new Error(error.message);
   };
 
-  const resendConfirmationEmail = async (email: string) => {
-    const { error } = await supabase.auth.resend({ type: 'signup', email });
-    if (error) throw new Error(error.message);
-  };
-
   const signUpAsCompanyAdmin = async (companyData: CompanySignUpData) => {
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: companyData.email,
@@ -153,7 +147,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         isLoading, 
         login, 
         logout, 
-        resendConfirmationEmail, 
         signUpAsPassenger, 
         signUpAsCompanyAdmin, 
         deleteUserAccount 

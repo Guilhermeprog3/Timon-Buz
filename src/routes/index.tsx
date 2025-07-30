@@ -18,7 +18,7 @@ const AppRoutes = () => {
   }
 
   if (session && profile) {
-    if (profile.role === 'admin' || profile.role === 'motorista') {
+    if (profile.role === 'admin') {
       return <CompanyPrivateRoutes />;
     }
     return <PrivateRoutes />;

@@ -4,13 +4,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
 import CompanyHomeScreen from '../screens/company_home';
 import CompanyUserScreen from '../screens/company_user';
+import theme from "../colors/index"
 
 const CompanyBottomRoutes = () => {
-    const theme = { 
-        gradientStart: '#041C32', 
-        textSecondary: '#8E9BA4', 
-        buttonBackground: '#F9A826' 
-    };
     const { Navigator, Screen } = createBottomTabNavigator();
 
     return (
