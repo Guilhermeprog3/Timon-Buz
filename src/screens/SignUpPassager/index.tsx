@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../hooks/auth';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { z } from 'zod';
-
+import theme from "../../colors/index"
 const signUpSchema = z.object({
   name: z.string().trim().min(3, "O nome deve ter pelo menos 3 caracteres."),
   email: z.string().trim().email("Por favor, insira um e-mail válido"),
@@ -15,10 +15,6 @@ const signUpSchema = z.object({
 const SignUpPassengerScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const { signUpAsPassenger } = useAuth();
-  const theme = {
-    gradientstartlogin: '#0D3B66', gradientendlogin: '#041C32', textPrimary: '#FFF',
-    textSecondary: '#CCC', buttonBackground: '#F9A826', buttonText: '#041C32', red: '#D32F2F'
-  };
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -160,7 +156,7 @@ const SignUpPassengerScreen = () => {
   });
 
   return (
-    <LinearGradient colors={[theme.gradientstartlogin, theme.gradientendlogin]} style={styles.container}>
+    <LinearGradient colors={[theme.gradientStart, theme.gradientEnd]} style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
         <View>
           <Text style={styles.heading}>Crie sua Conta</Text>

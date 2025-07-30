@@ -4,20 +4,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
+import theme from "../../colors/index"
 
 const AboutScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const appVersion = "1.0.0";
-
-  const theme = {
-    gradientStart: '#041C32',
-    gradientEnd: '#0D3B66',
-    textPrimary: '#FFF',
-    textSecondary: '#CCC',
-    buttonBackground: '#F9A826',
-    buttonText: '#041C32',
-    iconColor: '#F9A826',
-  };
 
   const openPortfolio = () => {
     Linking.openURL("https://guilhermeriosdev.vercel.app");

@@ -4,15 +4,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../hooks/auth';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
+import theme from "../../colors/index"
 
 const LoginScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const { login } = useAuth();
-
-  const theme = { 
-    gradientstartlogin: '#0D3B66', gradientendlogin: '#041C32', textPrimary: '#FFF',
-    textSecondary: '#CCC', buttonBackground: '#F9A826', buttonText: '#041C32', red: '#D32F2F' 
-  };
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -131,7 +127,7 @@ const LoginScreen = () => {
   });
 
   return (
-    <LinearGradient colors={[theme.gradientstartlogin, theme.gradientendlogin]} style={styles.container}>
+    <LinearGradient colors={[theme.gradientStart, theme.gradientEnd]} style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
         <View>
           <View style={styles.headerContainer}>

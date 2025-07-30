@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Empresa } from '../../context/empresacontext';
-
+import theme from "../../colors/index"
 const HomeScreen = () => {
   const { empresas, getEmpresas, isLoading } = useContext(EmpresaContext);
   const navigation = useNavigation<NavigationProp<any>>();
@@ -38,13 +38,7 @@ const HomeScreen = () => {
     setSubmittedQuery('');
   };
 
-  const theme = { 
-      gradientStart: '#0D3B66', 
-      gradientEnd: '#041C32', 
-      textPrimary: '#FFF', 
-      textSecondary: '#CCC', 
-      primaryLight: 'rgba(255,255,255,0.1)' 
-  };
+
 
   const styles = StyleSheet.create({
     container: { 

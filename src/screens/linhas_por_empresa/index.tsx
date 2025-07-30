@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 import { Linha } from '../../context/linhacontext';
 import { supabase } from '../../service/supabase';
+import theme from "../../colors/index"
 
 type LinhasPorEmpresaRouteProp = RouteProp<{ LinhasPorEmpresa: { empresaId: string; empresaNome: string } }, 'LinhasPorEmpresa'>;
 
@@ -63,14 +64,6 @@ const LinhasPorEmpresaScreen = () => {
   const handleClearSearch = () => {
     setSearchQuery('');
     setSubmittedQuery('');
-  };
-
-  const theme = {
-    gradientStart: '#041C32',
-    gradientEnd: '#0D3B66',
-    textPrimary: '#FFF',
-    textSecondary: '#CCC',
-    buttonBackground: '#F9A826',
   };
 
   const styles = StyleSheet.create({

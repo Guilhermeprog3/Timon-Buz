@@ -3,14 +3,11 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal, Pressable } from 'reac
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
+import theme from "../../colors/index"
 
 const SignUpChoiceScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const [modalVisible, setModalVisible] = useState(false);
-  const theme = {
-    gradientstartlogin: '#0D3B66', gradientendlogin: '#041C32', textPrimary: '#FFF',
-    textSecondary: '#CCC', buttonBackground: '#F9A826', buttonText: '#041C32',
-  };
   
   const styles = StyleSheet.create({
     container: { 
@@ -58,7 +55,7 @@ const SignUpChoiceScreen = () => {
     },
     modalContainer: { 
         width: '90%', 
-        backgroundColor: theme.gradientendlogin, 
+        backgroundColor: theme.gradientStart, 
         borderRadius: 15, 
         padding: 20 
     },
@@ -94,7 +91,7 @@ const SignUpChoiceScreen = () => {
   });
 
   return (
-    <LinearGradient colors={[theme.gradientstartlogin, theme.gradientendlogin]} style={styles.container}>
+    <LinearGradient colors={[theme.gradientStart, theme.gradientEnd]} style={styles.container}>
         <Text style={styles.heading}>Junte-se a Nós</Text>
         <Text style={styles.subtitle}>Como você gostaria de usar o aplicativo?</Text>
       

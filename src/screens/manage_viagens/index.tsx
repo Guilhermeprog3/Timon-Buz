@@ -6,6 +6,7 @@ import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navig
 import { Linha } from '../../context/linhacontext';
 import { Viagem, ViagemContext } from '../../context/viagemcontext';
 import { useLinhas } from '../../hooks/linha';
+import theme from "../../colors/index"
 
 type ManageViagensRouteProp = RouteProp<{ ManageViagens: { linha: Linha, viagem?: Viagem } }, 'ManageViagens'>;
 
@@ -107,11 +108,6 @@ const ManageViagensScreen = () => {
         if (success) {
             navigation.goBack();
         }
-    };
-
-    const theme = { 
-        gradientStart: '#041C32', gradientEnd: '#0D3B66', textPrimary: '#FFF', 
-        textSecondary: '#CCC', buttonBackground: '#F9A826', buttonText: '#041C32'
     };
 
     const styles = StyleSheet.create({

@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, NavigationProp, useRoute, RouteProp } from '@react-navigation/native';
 import { useAuth } from '../../hooks/auth';
+import theme from "../../colors/index"
 
 type VerifyEmailRouteProp = RouteProp<{ VerifyEmail: { email: string } }, 'VerifyEmail'>;
 
@@ -15,10 +16,6 @@ const VerifyEmailScreen = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const theme = {
-    gradientstartlogin: '#0D3B66', gradientendlogin: '#041C32', textPrimary: '#FFF',
-    textSecondary: '#CCC', buttonBackground: '#F9A826', buttonText: '#041C32', red: '#D32F2F'
-  };
 
   const handleResend = async () => {
     setIsLoading(true);
@@ -97,7 +94,7 @@ const VerifyEmailScreen = () => {
   });
 
   return (
-    <LinearGradient colors={[theme.gradientstartlogin, theme.gradientendlogin]} style={styles.container}>
+    <LinearGradient colors={[theme.gradientStart, theme.gradientEnd]} style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.content}>
           <View style={styles.iconContainer}>

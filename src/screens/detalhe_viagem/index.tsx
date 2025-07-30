@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 import { useLinhas } from '../../hooks/linha';
 import { PontoItinerario } from '../../context/linhacontext';
+import theme from "../../colors/index"
 
 type RotaCompletaItem = PontoItinerario & { horario_previsto?: string };
 
@@ -54,15 +55,6 @@ const DetalheViagemScreen = () => {
         setRotaCompleta(rota);
     }
   }, [pontos, horarios]);
-
-  const theme = {
-    gradientStart: '#041C32',
-    gradientEnd: '#0D3B66',
-    textPrimary: '#FFF',
-    textSecondary: '#CCC',
-    buttonBackground: '#F9A826',
-    red: '#E57373',
-  };
 
   const styles = StyleSheet.create({
     container: { 

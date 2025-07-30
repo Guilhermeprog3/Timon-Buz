@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 import { Viagem, ViagemContext } from '../../context/viagemcontext';
+import theme from "../../colors/index"
 
 type ViagensDaLinhaRouteProp = RouteProp<{ ViagensDaLinha: { linhaId: string; linhaNome: string } }, 'ViagensDaLinha'>;
 
@@ -57,14 +58,6 @@ const ViagensDaLinhaScreen = () => {
   const handleClearSearch = () => {
     setSearchQuery('');
     setSubmittedQuery('');
-  };
-
-  const theme = {
-    gradientStart: '#041C32',
-    gradientEnd: '#0D3B66',
-    textPrimary: '#FFF',
-    textSecondary: '#CCC',
-    buttonBackground: '#F9A826',
   };
 
   const styles = StyleSheet.create({

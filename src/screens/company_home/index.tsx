@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLinhas } from '../../hooks/linha';
 import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
 import { Linha } from '../../context/linhacontext';
+import theme from "../../colors/index"
 
 const CompanyHomeScreen = () => {
   const { linhas, isLoading, getLinhasDaEmpresa } = useLinhas();
@@ -30,15 +31,6 @@ const CompanyHomeScreen = () => {
       setFilteredLinhas(filtered);
     }
   }, [linhas, submittedQuery]);
-
-  const theme = {
-    gradientStart: '#041C32',
-    gradientEnd: '#0D3B66',
-    textPrimary: '#FFF',
-    textSecondary: '#CCC',
-    buttonBackground: '#F9A826',
-    buttonText: '#041C32'
-  };
 
   const handleNavigateToDetail = (linha: Linha) => {
     navigation.navigate('LinhaDetail', { linha });

@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/auth'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { z } from 'zod'
 import { useState } from 'react'
+import theme from "../../colors/index"
 
 const companySignUpSchema = z.object({
   companyName: z.string().trim().min(3, 'O nome da empresa é obrigatório.'),
@@ -18,15 +19,6 @@ const companySignUpSchema = z.object({
 const SignUpCompanyScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>()
   const { signUpAsCompanyAdmin } = useAuth()
-  const theme = {
-    gradientstartlogin: '#0D3B66',
-    gradientendlogin: '#041C32',
-    textPrimary: '#FFF',
-    textSecondary: '#CCC',
-    buttonBackground: '#F9A826',
-    buttonText: '#041C32',
-    red: '#D32F2F',
-  }
 
   const [formData, setFormData] = useState({
     companyName: '',
@@ -167,7 +159,7 @@ const SignUpCompanyScreen = () => {
 
   return (
     <LinearGradient
-      colors={[theme.gradientstartlogin, theme.gradientendlogin]}
+      colors={[theme.gradientStart, theme.gradientEnd]}
       style={styles.container}
     >
       <ScrollView

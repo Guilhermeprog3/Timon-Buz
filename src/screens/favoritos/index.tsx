@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
 import { Linha, LinhaContext } from '../../context/linhacontext';
-
+import theme from "../../colors/index"
 const FavoritosScreen = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const { favoriteLinhas, getFavoriteLinhas, isLoading, toggleFavorito } = useContext(LinhaContext);
@@ -15,14 +15,6 @@ const FavoritosScreen = () => {
     }, [])
   );
 
-  const theme = {
-    gradientStart: '#041C32',
-    gradientEnd: '#0D3B66',
-    textPrimary: '#FFF',
-    textSecondary: '#CCC',
-    buttonBackground: '#F9A826',
-    red: '#D32F2F'
-  };
 
   const styles = StyleSheet.create({
     container: { 

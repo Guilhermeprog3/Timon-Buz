@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { useLinhas } from '../../hooks/linha';
 import { Linha, PontoItinerario } from '../../context/linhacontext';
 import { Ionicons } from '@expo/vector-icons';
+import theme from "../../colors/index"
 
 const linhaSchema = z.object({
   nome: z.string().trim().min(3, "O nome da linha deve ter pelo menos 3 caracteres."),
@@ -111,10 +112,6 @@ const ManageLinhaScreen = () => {
       return errors;
   }
   
-  const theme = {
-    gradientStart: '#041C32', gradientEnd: '#0D3B66', textPrimary: '#FFF',
-    textSecondary: '#CCC', buttonBackground: '#F9A826', buttonText: '#041C32', red: '#D32F2F'
-  };
 
   const styles = StyleSheet.create({
     container: { 

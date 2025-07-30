@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { UserProfile } from '../../context/authcontext';
 import { User } from '@supabase/supabase-js';
-
+import theme from "../../colors/index"
 interface MenuOptionsProps {
   logout: () => void;
   deleteUserAccount: () => Promise<void>;
@@ -29,11 +29,6 @@ const MenuOptionsUser: React.FC<MenuOptionsProps> = ({ logout, deleteUserAccount
     } catch (error: any) {
         Alert.alert("Erro", "Não foi possível deletar sua conta. Tente novamente.");
     }
-  };
-
-  const theme = { 
-    gradientEnd: '#041C32', textPrimary: '#FFF', textSecondary: '#CCC',
-    buttonBackground: '#F9A826', secondary: '#F9A826', red: '#D32F2F' 
   };
   
   const styles = StyleSheet.create({

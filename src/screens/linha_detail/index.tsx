@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp, NavigationProp, useFocusEffect } from '@react-navigation/native';
 import { Linha } from '../../context/linhacontext';
 import { ViagemContext, Viagem } from '../../context/viagemcontext';
+import theme from "../../colors/index"
 
 type LinhaDetailRouteProp = RouteProp<{ LinhaDetail: { linha: Linha } }, 'LinhaDetail'>;
 
@@ -38,16 +39,6 @@ const LinhaDetailScreen = () => {
             setDeleteModalVisible(false);
             setViagemToDelete(null);
         }
-    };
-
-    const theme = { 
-        gradientStart: '#041C32', 
-        gradientEnd: '#0D3B66', 
-        textPrimary: '#FFF', 
-        textSecondary: '#CCC', 
-        buttonBackground: '#F9A826', 
-        red: '#D32F2F', 
-        buttonText: '#041C32'
     };
 
     const styles = StyleSheet.create({
