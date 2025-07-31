@@ -46,4 +46,22 @@
 - 📍 **Definição de Horários:** Cadastre o horário de passagem em cada ponto.
 - 🔐 **Autenticação Segura:** Login individual da empresa com acesso protegido.
 
+## ▶️ Como Rodar a Aplicação
+
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/timon-buz.git
+   cd timon-buz
+   ```
+
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+3. Inicie o projeto:
+   ```bash
+   npm start
+   ```
+   
 ---
