@@ -5,6 +5,20 @@
 
 > ⚠️ **Importante:** Este repositório corresponde ao **front-end mobile** da aplicação.
 
+
+
+---
+
+## 📱 Telas do Aplicativo
+
+<div style="display: flex;">
+<img src="./assets/Captura de tela 2025-08-14 203740.png" alt="Tela Inicial" width="395" height="861" style="margin-right: 10px;"/>
+<img src="./assets/Captura de tela 2025-08-14 203824.png" alt="Tela de Detalhes" width="395" height="861"/>
+</div>
+
+---
+
+
 ---
 
 ## 🚀 Tecnologias Utilizadas
