@@ -64,7 +64,7 @@
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/seu-usuario/timon-buz.git
+   git clone https://github.com/Guilhermeprog3/Timon-Buz.git
    cd timon-buz
    ```
 
